@@ -16,9 +16,17 @@ public class client {
                 
                 // take input from terminal
                 input = new DataInputStream(System.in);
+                //newly inserted to see read data ( TBC)
+                int dataInt = input.readInt();
+                String dataString = input.readUTF();
+                Boolean dataBool = input.readBoolean();
 
                 //send output to socket
                 out = new DataOutputStream(clientSocket.getOutputStream());
+                //Sending Sample output (TBC)
+                out.writeInt(2);
+                out.writeUTF("testing");
+                out.writeBoolean(true);
             }
             catch(UnknownHostException u)
             {
