@@ -21,6 +21,10 @@ public class client {
                 String dataString = input.readUTF();
                 Boolean dataBool = input.readBoolean();
 
+                System.out.println(dataInt);
+                System.out.println(dataString);
+                System.out.println(dataBool);
+
                 //send output to socket
                 out = new DataOutputStream(clientSocket.getOutputStream());
                 //Sending Sample output (TBC)

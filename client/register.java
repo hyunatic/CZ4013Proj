@@ -6,19 +6,22 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.*;
 
-public class login implements ActionListener {
+public class register implements ActionListener {
 
     private static JLabel userLabel;
     private static JTextField userText;
     private static JLabel passLabel;
     private static JPasswordField passText;
-    private static JButton loginbutton;
-    private static JButton regbutton;
+    private static JLabel currencyLabel;
+    private static JTextField currencyText;
+    private static JLabel initLabel;
+    private static JPasswordField initText;
+    private static JButton button;
     private static JLabel success;
     public static void main(String[] args) {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
-        frame.setSize(350,200);
+        frame.setSize(350,300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         panel.setLayout(null);
@@ -39,18 +42,29 @@ public class login implements ActionListener {
         passText.setBounds(100,50,165,25);
         panel.add(passText);
 
-        loginbutton = new JButton("Login");
-        loginbutton.setBounds(10,80,80,25);
-        loginbutton.addActionListener(new login());
-        panel.add(loginbutton);
+        currencyLabel = new JLabel("Currency Type");
+        currencyLabel.setBounds(10,80,120,25);
+        panel.add(currencyLabel);
 
-        regbutton = new JButton("Register");
-        regbutton.setBounds(100,80,100,25);
-        regbutton.addActionListener(new login());
-        panel.add(regbutton);
+        currencyText = new JTextField();
+        currencyText.setBounds(100,80,165,25);
+        panel.add(currencyText);
+
+        initLabel = new JLabel("Initial Balance");
+        initLabel.setBounds(10,110,80,25);
+        panel.add(initLabel);
+
+        initText = new JPasswordField();
+        initText.setBounds(100,110,165,25);
+        panel.add(initText);
+
+        button = new JButton("Create");
+        button.setBounds(10,170,80,25);
+        button.addActionListener(new login());
+        panel.add(button);
 
         success = new JLabel("");
-        success.setBounds(10,110,300,25);
+        success.setBounds(10,200,300,25);
         panel.add(success);
 
         frame.setVisible(true);
