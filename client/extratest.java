@@ -6,7 +6,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.*;
 
-public class withdrawal implements ActionListener {
+public class extratest implements ActionListener {
 
     private static JLabel userLabel;
     private static JTextField userText;
@@ -20,8 +20,7 @@ public class withdrawal implements ActionListener {
     private static JPasswordField amountText;
     private static JButton button;
     private static JLabel success;
-    
-    public void withdrawalpage() {
+    public static void main(String[] args) {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(350,300);

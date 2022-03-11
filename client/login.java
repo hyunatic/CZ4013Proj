@@ -58,15 +58,26 @@ public class login implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == loginbutton){
         String user = userText.getText();
         String password = passText.getText();
         System.out.println(user + ", " + password);
 
         if(user.equals("Brendan") && password.equals("123")){
             success.setText("Login successful");
+            menu menupg = new menu();
+            menupg.menupage();
         }
         else {
-            success.setText("");
+            success.setText("Wrong password");
+        }
+    }
+        else if (e.getSource() == regbutton)
+        {
+            System.out.println("register");
+            register registerpg = new register();
+            registerpg.registerpage();  
         }
     }
 }

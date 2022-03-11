@@ -18,7 +18,7 @@ public class register implements ActionListener {
     private static JPasswordField initText;
     private static JButton button;
     private static JLabel success;
-    public static void main(String[] args) {
+    public void registerpage() {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(350,300);
@@ -60,7 +60,7 @@ public class register implements ActionListener {
 
         button = new JButton("Create");
         button.setBounds(10,170,80,25);
-        button.addActionListener(new login());
+        button.addActionListener(new register());
         panel.add(button);
 
         success = new JLabel("");
@@ -74,9 +74,11 @@ public class register implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String user = userText.getText();
         String password = passText.getText();
+        String currency = currencyText.getText();
+        String inital = initText.getText();
         System.out.println(user + ", " + password);
 
-        if(user.equals("Brendan") && password.equals("123")){
+        if(user.equals("Brendan") && password.equals("123") && currency.equals("1") && inital.equals("1")){
             success.setText("Login successful");
         }
         else {
