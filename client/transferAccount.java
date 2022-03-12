@@ -7,28 +7,31 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.*;
 
-public class withdrawal implements ActionListener {
+public class transferAccount implements ActionListener {
 
-    private static final ActionListener Currencylistener = null;
+    //private static final ActionListener Currencylistener = null;
     private static JLabel userLabel;
     private static JTextField userText;
     private static JLabel accountLabel;
     private static JTextField accountText;
     private static JLabel passLabel;
     private static JPasswordField passText;
+    private static JLabel Label;
+    private static JLabel payeeaccountLabel;
+    private static JTextField payeeaccountText;
     private static JLabel currencyLabel;
     //private static JTextField currencyText;
     private static JComboBox currencyText;
     private static JLabel amountLabel;
     private static JPasswordField amountText;
-    private static JButton withbutton;
+    private static JButton transbutton;
     private static JButton backbutton;
     private static JLabel success;
     
-    public void withdrawalpage()   {
+    public void transferpage()   {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
-        frame.setSize(350,300);
+        frame.setSize(350,350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         panel.setLayout(null);
@@ -58,36 +61,48 @@ public class withdrawal implements ActionListener {
         passText.setBounds(100,80,165,25);
         panel.add(passText);
 
+        Label = new JLabel("________________________________________");
+        Label.setBounds(10,95,400,25);
+        panel.add(Label);
+
+        payeeaccountLabel = new JLabel("Payee Acc No");
+        payeeaccountLabel.setBounds(10,120,80,25);
+        panel.add(payeeaccountLabel);
+
+        payeeaccountText = new JTextField();
+        payeeaccountText.setBounds(100,120,165,25);
+        panel.add(payeeaccountText);
+
         currencyLabel = new JLabel("Currency Type");
-        currencyLabel.setBounds(10,110,120,25);
+        currencyLabel.setBounds(10,150,150,25);
         panel.add(currencyLabel);
 
         String[] moneytype = {"SGD", "USD", "EUR", "JPY", "HKD"};
         currencyText = new JComboBox(moneytype);
         
-        currencyText.setBounds(100,110,165,25);
+        currencyText.setBounds(100,150,165,25);
         panel.add(currencyText);
 
-        amountLabel = new JLabel("Withdraw Amt");
-        amountLabel.setBounds(10,140,80,25);
+        amountLabel = new JLabel("Amount");
+        amountLabel.setBounds(10,180,80,25);
         panel.add(amountLabel);
 
         amountText = new JPasswordField();
-        amountText.setBounds(100,140,165,25);
+        amountText.setBounds(100,180,165,25);
         panel.add(amountText);
 
-        withbutton = new JButton("Withdraw");
-        withbutton.setBounds(10,200,150,25);
-        withbutton.addActionListener(new withdrawal());
-        panel.add(withbutton);
+        transbutton = new JButton("Transfer");
+        transbutton.setBounds(10,220,150,25);
+        transbutton.addActionListener(new transferAccount());
+        panel.add(transbutton);
 
         backbutton = new JButton("Back");
-        backbutton.setBounds(180,200,150,25);
-        backbutton.addActionListener(new withdrawal());
+        backbutton.setBounds(180,220,150,25);
+        backbutton.addActionListener(new deposit());
         panel.add(backbutton);
 
         success = new JLabel("");
-        success.setBounds(10,230,300,25);
+        success.setBounds(10,250,300,25);
         panel.add(success);
 
         frame.setVisible(true);
@@ -95,7 +110,7 @@ public class withdrawal implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == withbutton)
+        if (e.getSource() == transbutton)
         {
         String user = userText.getText();
         String password = passText.getText();

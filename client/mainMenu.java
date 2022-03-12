@@ -49,6 +49,7 @@ public class mainMenu extends javax.swing.JFrame{
         {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addAccountBtnActionPerformed(evt);
+                dispose();
             }  
         });
 

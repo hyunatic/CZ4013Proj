@@ -7,7 +7,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.*;
 
-public class withdrawal implements ActionListener {
+public class deleteAccount implements ActionListener {
 
     private static final ActionListener Currencylistener = null;
     private static JLabel userLabel;
@@ -21,11 +21,11 @@ public class withdrawal implements ActionListener {
     private static JComboBox currencyText;
     private static JLabel amountLabel;
     private static JPasswordField amountText;
-    private static JButton withbutton;
+    private static JButton delbutton;
     private static JButton backbutton;
     private static JLabel success;
     
-    public void withdrawalpage()   {
+    public void deletepage() {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(350,300);
@@ -58,7 +58,7 @@ public class withdrawal implements ActionListener {
         passText.setBounds(100,80,165,25);
         panel.add(passText);
 
-        currencyLabel = new JLabel("Currency Type");
+        /*currencyLabel = new JLabel("Currency Type");
         currencyLabel.setBounds(10,110,120,25);
         panel.add(currencyLabel);
 
@@ -68,26 +68,27 @@ public class withdrawal implements ActionListener {
         currencyText.setBounds(100,110,165,25);
         panel.add(currencyText);
 
-        amountLabel = new JLabel("Withdraw Amt");
+        amountLabel = new JLabel("Initial Balance");
         amountLabel.setBounds(10,140,80,25);
         panel.add(amountLabel);
 
         amountText = new JPasswordField();
         amountText.setBounds(100,140,165,25);
         panel.add(amountText);
+        */
 
-        withbutton = new JButton("Withdraw");
-        withbutton.setBounds(10,200,150,25);
-        withbutton.addActionListener(new withdrawal());
-        panel.add(withbutton);
+        delbutton = new JButton("Delete");
+        delbutton.setBounds(10,110,150,25);
+        delbutton.addActionListener(new deleteAccount());
+        panel.add(delbutton);
 
         backbutton = new JButton("Back");
-        backbutton.setBounds(180,200,150,25);
-        backbutton.addActionListener(new withdrawal());
+        backbutton.setBounds(180,110,150,25);
+        backbutton.addActionListener(new deposit());
         panel.add(backbutton);
 
         success = new JLabel("");
-        success.setBounds(10,230,300,25);
+        success.setBounds(10,140,300,25);
         panel.add(success);
 
         frame.setVisible(true);
@@ -95,7 +96,7 @@ public class withdrawal implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == withbutton)
+        if (e.getSource() == delbutton)
         {
         String user = userText.getText();
         String password = passText.getText();

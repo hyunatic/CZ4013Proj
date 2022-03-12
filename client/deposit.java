@@ -7,7 +7,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.*;
 
-public class withdrawal implements ActionListener {
+public class deposit implements ActionListener {
 
     private static final ActionListener Currencylistener = null;
     private static JLabel userLabel;
@@ -21,11 +21,11 @@ public class withdrawal implements ActionListener {
     private static JComboBox currencyText;
     private static JLabel amountLabel;
     private static JPasswordField amountText;
-    private static JButton withbutton;
+    private static JButton depbutton;
     private static JButton backbutton;
     private static JLabel success;
     
-    public void withdrawalpage()   {
+    public void depositpage()   {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(350,300);
@@ -68,24 +68,25 @@ public class withdrawal implements ActionListener {
         currencyText.setBounds(100,110,165,25);
         panel.add(currencyText);
 
-        amountLabel = new JLabel("Withdraw Amt");
-        amountLabel.setBounds(10,140,80,25);
+        amountLabel = new JLabel("Deposit Amt");
+        amountLabel.setBounds(10,140,200,25);
         panel.add(amountLabel);
 
         amountText = new JPasswordField();
         amountText.setBounds(100,140,165,25);
         panel.add(amountText);
 
-        withbutton = new JButton("Withdraw");
-        withbutton.setBounds(10,200,150,25);
-        withbutton.addActionListener(new withdrawal());
-        panel.add(withbutton);
+        depbutton = new JButton("Deposit");
+        depbutton.setBounds(10,200,150,25);
+        depbutton.addActionListener(new deposit());
+        panel.add(depbutton);
 
         backbutton = new JButton("Back");
         backbutton.setBounds(180,200,150,25);
-        backbutton.addActionListener(new withdrawal());
+        backbutton.addActionListener(new deposit());
         panel.add(backbutton);
 
+        
         success = new JLabel("");
         success.setBounds(10,230,300,25);
         panel.add(success);
@@ -95,7 +96,7 @@ public class withdrawal implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == withbutton)
+        if (e.getSource() == depbutton)
         {
         String user = userText.getText();
         String password = passText.getText();
@@ -108,7 +109,7 @@ public class withdrawal implements ActionListener {
             success.setText("");
         }
     }
-    else if (e.getSource()== backbutton)
+       else if (e.getSource()== backbutton)
        {
            // not sure how to code return back to previous screen :X
            //menu menupg = new menu();
