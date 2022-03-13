@@ -1,0 +1,14 @@
+[
+    {
+        "username": "toby",
+        "userpassword": "123",
+        "privatekey": "ceeedf546d732af1256b017c17bd6b93323a11b840f922f48c222659379b2b37",
+        "publickey": "04c6c120699ddeafec534356c74b5e9f8d41f5a7a68892fe6dcbe8c29b80990208474c4323a996084d9b342d2cfe85d32769718f1a026a53c0c90c10073122c46e"
+    },
+    {
+        "username": "thomas",
+        "userpassword": "123",
+        "privatekey": "1d3ddd2b1d28c9b868eba5dfea8dc7da64c7df75d332d95fec5486600dceaa04",
+        "publickey": "045bf499d2c3956793a7630725ca9ff95db5c2b5c6d0cfb0409bbe49f222a4c17de81cfe72de4d1929edcae17419e2bb418a40f7ec8dbfa49c76ae721c814df018"
+    }
+]

@@ -2,13 +2,16 @@ const express = require('express')
 const http = require("http")
 const socketIo = require("socket.io")
 
+//Server Configuration
 const app = express()
-
 app.get('/',(req,res) => res.send("Hello World"))
 const server = http.Server(app)
 server.listen(2222, () => console.log("Server Started"))
-
 const io = socketIo(server)
+
+const BankAccount = require("./BankAccount")
+let Bank = new BankAccount()
+
 
 //socket.on is listening for something
 //socket.emit is sending something to everyone
@@ -28,5 +31,3 @@ io.on('connection', socket => {
 })
 
 
-// const BankAccount = require("./BankAccount")
-// let Bank = new BankAccount()
