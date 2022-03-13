@@ -1,15 +1,32 @@
-const http = require("http").createServer()
-const io = require("socket.io")(http)
+const express = require('express')
+const http = require("http")
+const socketIo = require("socket.io")
 
-const BankAccount = require("./BankAccount")
+const app = express()
 
-io.on("connection", socket => {
-    console.log("a user connected")
+app.get('/',(req,res) => res.send("Hello World"))
+const server = http.Server(app)
+server.listen(2222, () => console.log("Server Started"))
 
+const io = socketIo(server)
+
+//socket.on is listening for something
+//socket.emit is sending something to everyone
+//io.to(socket.id).emit() is sending to a specific client
+
+io.on('connection', socket => {
+    console.info(`Client connected [id=${socket.id}]`);
+    
+    socket.emit('hello',{
+        greeting: 'Hello NTU Team'
+    })
+    
+    socket.on('bye', (data) => {
+        console.log(data)
+        io.to(socket.id).emit('bye-response', "Ok bye bye client")
+    })
 })
 
-http.listen(2222, () => {
-    let Bank = new BankAccount()
-    var response = Bank.OpenNewAccount("iskandar", "123", "SGD", 12)
-    console.log(response)
-})
+
+// const BankAccount = require("./BankAccount")
+// let Bank = new BankAccount()
