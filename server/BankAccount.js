@@ -46,7 +46,7 @@ class BankAccount {
                 let RobjIndex = this.AccountList.findIndex((x => x.AccName === ReceipientName && x.AccountNo === ReceipientAccountNo))
                 if (RobjIndex != -1){
                     this.AccountList[RobjIndex].Balance += Amount
-                    return { 'Server-Response': "Money Transfered Successfully" }
+                    return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) } 
                 }
                 return {'Server-Response': 'Recipient Account Does Not Exist'}
             }
