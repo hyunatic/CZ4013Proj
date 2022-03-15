@@ -22,6 +22,9 @@ class BankAccount {
     GetAccountDetails(AccountNo, AccName, Password, Currency) {
         return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password && x.Currency === Currency)) }
     }
+    Login(AccName, Password) {
+        return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.Password === Password)) }
+    }
     DepositMoney(AccountNo, AccName, Password, Currency, Amount) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
         this.AccountList[objIndex].Balance += Amount
@@ -46,7 +49,7 @@ class BankAccount {
                 let RobjIndex = this.AccountList.findIndex((x => x.AccName === ReceipientName && x.AccountNo === ReceipientAccountNo))
                 if (RobjIndex != -1){
                     this.AccountList[RobjIndex].Balance += Amount
-                    return { 'Server-Response': "Money Transfered Successfully" }
+                    return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) } 
                 }
                 return {'Server-Response': 'Recipient Account Does Not Exist'}
             }
