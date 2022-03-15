@@ -5,9 +5,10 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import Transfer from '../pages/Transfer';
-
-
-
+import Deposit from '../pages/Deposit';
+import Withdraw from '../pages/Withdraw';
+import CloseAccount from '../pages/CloseAccount';
+import OpenAccount from '../pages/OpenAccount';
 class Routes extends React.Component {
   /**
    * Routes
@@ -21,6 +22,10 @@ class Routes extends React.Component {
         <Route path='/transfer' component={Transfer} />
         <Route path='/logout' component={Logout} />
         
+        <Route path='/deposit' component={Deposit} />
+        <Route path='/withdraw' component={Withdraw} />
+        <Route path='/closeaccount' component={CloseAccount} />
+        <Route path='/openaccount' component={OpenAccount} />
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     );

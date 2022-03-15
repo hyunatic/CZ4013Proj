@@ -35,9 +35,13 @@ class Home extends Component {
         socket.on('deposit-reply', (data) => {
             data = UnMarshalling(data)
             //Do what ever you want
+            socket.emit('deposit-ack', marshallData)
+
             console.log(data)
         })
     }
+
+    // live ? 
     CallbackFunction = () => {
         socket.on('monitor-updates', (data) => {
             data = UnMarshalling(data)
