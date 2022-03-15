@@ -158,6 +158,21 @@ io.on('connection', socket => {
         }
         io.emit('monitor-updates', MarshallingService.Marshall(data))
     })
+
+    socket.on('login', (receivingData, func = "login") => {
+        //Unmarshall
+        let request = MarshallingService.Unmarshall(receivingData)
+
+        //Selects Mode
+        request = ReqReplyService.ModeSelector(request, historyExists)
+        let data = Bank.Login(request.AccName, request.Password)
+
+        if (request.Transmit) {
+            let marshalledData = MarshallingService.Marshall(data)
+            io.to(socket.id).emit('login-reply', marshalledData)
+        }
+        io.emit('monitor-updates', MarshallingService.Marshall(data))
+    })
     
 
 })
