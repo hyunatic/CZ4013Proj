@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { MDBFooter } from 'mdbreact';
 
-
 export default class Footer extends Component {
     /**
      * Footer 
