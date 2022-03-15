@@ -32,16 +32,32 @@ class BankAccount {
     }
     WithdrawMoney(AccountNo, AccName, Password, Currency, Amount) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
-        this.AccountList[objIndex].Balance -= Amount
-        return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) }
+        if (objIndex != -1) {
+            if (this.AccountList[objIndex].Balance > Amount) {
+                this.AccountList[objIndex].Balance -= Amount
+                return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) }
+            }
+            return {'Server-Response': 'Insufficient Balance'}
+        }
+        return {'Server-Response': 'Account Does Not Exist'}
     }
     TransferMoney(AccountNo, AccName, Password, Currency, Amount, ReceipientName, ReceipientAccountNo) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
-        this.AccountList[objIndex].Balance -= Amount
-
-        let RobjIndex = this.AccountList.findIndex((x => x.AccName === ReceipientName && x.AccountNo === ReceipientAccountNo))
-        this.AccountList[RobjIndex].Balance += Amount
-        return { 'Server-Response': "Money Transfered Successfully" }
+        if (objIndex != -1) {
+            if (this.AccountList[objIndex].Balance > Amount) {
+                this.AccountList[objIndex].Balance -= Amount
+                let RobjIndex = this.AccountList.findIndex((x => x.AccName === ReceipientName && x.AccountNo === ReceipientAccountNo))
+                if (RobjIndex != -1){
+                    this.AccountList[RobjIndex].Balance += Amount
+                    return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) } 
+                }
+                return {'Server-Response': 'Recipient Account Does Not Exist'}
+            }
+            return {'Server-Response': 'Insufficient Balance'}
+        }
+        else {
+            return {'Server-Response': 'Sender Account Does Not Exist'}
+        }
     }
 
 }
