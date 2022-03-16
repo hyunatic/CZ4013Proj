@@ -144,7 +144,7 @@ class Transfer extends Component {
                                 onChange={this.handleChange}
                             />
                             <div className="text-center mt-4 black-text">
-                                <MDBBtn color="white" onClick={this.initiateTransfer} > Transfer
+                                <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Transfer
                                 </MDBBtn>
                                 <MDBBtn color="white" onClick={this.back} > Back
                                </MDBBtn>

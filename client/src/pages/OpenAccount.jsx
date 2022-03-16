@@ -14,10 +14,15 @@ class OpenAccount extends Component {
     }
 
     state = { 
-        AccName: '',
-        Password: '',
-        Currency: '',
-        Balance: '',
+        
+        // AccName: localStorage.getItem("accname"),
+        // Password: localStorage.getItem("password"),
+        // Currency: localStorage.getItem("currency"),
+        // Balance: localStorage.getItem("balance"),
+        AccName: "",
+        Password: "",
+        Currency: "",
+        Balance: "",
     }
     initiateOpen = () => {
         let sendingData = {
@@ -34,6 +39,8 @@ class OpenAccount extends Component {
 
         socket.on('open-account-reply', (data) => {
             data = UnMarshalling(data)
+            var reply = data['Server-Response']
+            console.log(reply)
             //Do what ever you want
             socket.emit('open-account-ack', marshallData)
 

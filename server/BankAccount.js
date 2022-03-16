@@ -3,9 +3,9 @@ class BankAccount {
         this.AccountList = []
     }
     OpenNewAccount(AccName, Password, Currency, Balance) {
-        let accountExists = this.AccountList.some(x => x.AccName === AccName && x.Password === Password && x.Currency === Currency)
+        let accountExists = this.AccountList.some(x => x.AccName === AccName && x.Password === Password && x.Currency === Currency )
         if (!accountExists) {
-            var AccountDetails = { AccountNo: (this.AccountList.length + 1).toString(), AccName, Password, Currency, Balance: Balance }
+            var AccountDetails = { AccountNo: (this.AccountList.length + 1).toString(), AccName, Password, Currency, Balance: 0 }
             this.AccountList.push(AccountDetails)
             return { 'Server-Response': AccountDetails.AccountNo }
         }

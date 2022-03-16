@@ -9,6 +9,7 @@ import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 
 class Deposit extends Component {
+    
     componentDidMount() {
         socket.on('Connect-Establisment', (data) => console.log(data))
     }
@@ -19,6 +20,7 @@ class Deposit extends Component {
         Password: '',
         Currency: '',
         Amount: '',
+        // balance: '',
     }
     initiateTransfer = () => {
         let sendingData = {
@@ -37,17 +39,25 @@ class Deposit extends Component {
         socket.on('deposit-reply', (data) => {
             data = UnMarshalling(data)
             //Do what ever you want
+            var reply = data['Server-Response']
+            console.log(reply)
+            this.setState({ Balance: reply.Balance })
+            //console.log(reply.Balance)
+            
+            //console.log(data)
+           
             socket.emit('deposit-ack', marshallData)
 
-            console.log(data)
+            //console.log(data)
         })
     }
 
     CallbackFunction = () => {
         socket.on('monitor-updates', (data) => {
             data = UnMarshalling(data)
+            
             //Do what ever you want
-            console.log(data)
+            //console.log(data)
         })
     }
     back = () => {
@@ -120,9 +130,10 @@ class Deposit extends Component {
                         value={this.state.Amount}
                         onChange={this.handleChange}
                     />
-                    
+                     <p className="text-center">balance</p>
+
                     <div className="text-center mt-4 black-text">
-                        <MDBBtn color="white" onClick={this.initiateTransfer} > Deposit
+                        <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Deposit
                         </MDBBtn>
                         <MDBBtn color="white" onClick={this.back} > Back
                         </MDBBtn>

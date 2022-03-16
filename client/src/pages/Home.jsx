@@ -10,34 +10,38 @@ import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 
 class Home extends Component {
+    
     //socket.on is listening for something
     //socket.emit is sending something to server
     componentDidMount() {
         socket.on('Connect-Establisment', (data) => console.log(data))
     }
     MarshallingExample = () => {
-        //Deposit Money
+        //check balance
         let sendingData = {
             AccountNo: "1",
             AccName: "toby",
             Password: "123",
             Currency: "SGD",
-            Amount: 20,
+            // Amount: 20,
             //Mode is 0,1,2 [Must send]
-            Mode: 1
+            Mode: 1,
         }
         //Must do this
         let marshallData = Marshalling(sendingData)
-        socket.emit('deposit', marshallData)
+        socket.emit('check-balance', marshallData)
+       
+        //console.log(data)
         //Do timeout at this portion
 
 
-        socket.on('deposit-reply', (data) => {
+        socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
+            //console.log(data)
             //Do what ever you want
-            socket.emit('deposit-ack', marshallData)
+            socket.emit('check-balance-ack', marshallData)
 
-            console.log(data)
+            //console.log(data)
         })
     }
 
@@ -56,11 +60,17 @@ class Home extends Component {
             <div>
                 <Navbar /><br />
                 <MDBContainer>
-                    <h3>Menu</h3>
+                    <h3>Good day </h3>
+                    <h4>Choose a selection:</h4>
                     <hr />
                     You have 100 Dollar
                     <MDBBtn onClick={this.MarshallingExample}>Marshalling Example</MDBBtn>
-                    <MDBBtn onClick={() => this.props.history.push('/transfer')}>Transfer</MDBBtn>
+                    <MDBBtn color="dark-green" onClick={() => this.props.history.push('/deposit')}>Deposit</MDBBtn>
+                    <MDBBtn color="dark-green" onClick={() => this.props.history.push('/withdraw')}>Withdraw</MDBBtn>
+                    <MDBBtn color="dark-green" onClick={() => this.props.history.push('/transfer')}>Transfer</MDBBtn>
+                    <MDBBtn color="red" onClick={() => this.props.history.push('/closeaccount')}>Close Account</MDBBtn>
+                    <br/>
+                    <p className="text-center">balance</p>
                 </MDBContainer>
                 <br />
                 <br />

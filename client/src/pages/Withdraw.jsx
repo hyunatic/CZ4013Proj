@@ -122,7 +122,7 @@ class Withdraw extends Component {
                     />
                     
                     <div className="text-center mt-4 black-text">
-                        <MDBBtn color="white" onClick={this.initiateTransfer} > Withdraw
+                        <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Withdraw
                         </MDBBtn>
                         <MDBBtn color="white" onClick={this.back} > Back
                         </MDBBtn>
