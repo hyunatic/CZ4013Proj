@@ -31,13 +31,13 @@ class Home extends Component {
         let marshallData = Marshalling(sendingData)
         socket.emit('check-balance', marshallData)
        
-        //console.log(data)
+        console.log(data)
         //Do timeout at this portion
 
 
         socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
-            //console.log(data)
+            console.log(data)
             //Do what ever you want
             socket.emit('check-balance-ack', marshallData)
 

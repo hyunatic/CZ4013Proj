@@ -29,7 +29,7 @@ class OpenAccount extends Component {
             AccName: this.state.AccName,
             Password: this.state.Password,
             Currency: this.state.Currency,
-            Balance: this.state.Balance,
+            Balance: parseFloat(this.state.Balance),
             //Mode is 0,1,2 [Must send]
             Mode: 1
         }

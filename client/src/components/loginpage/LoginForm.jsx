@@ -109,6 +109,7 @@ class LoginForm extends React.Component {
                         <div className="text-center mt-4 black-text">
                           <MDBBtn color="white" onClick={this.EmailLogin} > Login
                           </MDBBtn>
+                          
                           <hr className="hr-light" />
                         </div>
                       </MDBCardBody>
