@@ -17,35 +17,23 @@ class Home extends Component {
         socket.on('Connect-Establisment', (data) => console.log(data))
     }
     MarshallingExample = () => {
-        //check balance
         let sendingData = {
-            AccountNo: "1",
-            AccName: "toby",
-            Password: "123",
-            Currency: "SGD",
-            // Amount: 20,
-            //Mode is 0,1,2 [Must send]
+            AccountNo: localStorage.getItem('AccountNo'),
+            AccName: localStorage.getItem('AccName'),
+            Password: localStorage.getItem('Password'),
+            Currency: localStorage.getItem('Currency'),
             Mode: 1,
         }
-        //Must do this
         let marshallData = Marshalling(sendingData)
         socket.emit('check-balance', marshallData)
-       
-        //console.log(data)
-        //Do timeout at this portion
-
 
         socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
-            //console.log(data)
-            //Do what ever you want
             socket.emit('check-balance-ack', marshallData)
-
-            //console.log(data)
         })
     }
 
-    // live ? 
+    // live ?
     CallbackFunction = () => {
         socket.on('monitor-updates', (data) => {
             data = UnMarshalling(data)
