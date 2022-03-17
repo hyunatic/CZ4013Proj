@@ -28,7 +28,7 @@ class Transfer extends Component {
             AccName: this.state.AccName,
             Password: this.state.Password,
             Currency: this.state.Currency,
-            Amount: this.state.Amount,
+            Amount: parseFloat(this.state.Amount),
             ReceipientName: this.state.ReceipientName,
             ReceipientAccountNo: this.state.ReceipientAccountNo,
             //Mode is 0,1,2 [Must send]

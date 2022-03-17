@@ -27,14 +27,14 @@ class BankAccount {
     }
     DepositMoney(AccountNo, AccName, Password, Currency, Amount) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
-        this.AccountList[objIndex].Balance += Amount
+        this.AccountList[objIndex].Balance += parseFloat(Amount)
         return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) }
     }
     WithdrawMoney(AccountNo, AccName, Password, Currency, Amount) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
         if (objIndex != -1) {
             if (this.AccountList[objIndex].Balance > Amount) {
-                this.AccountList[objIndex].Balance -= Amount
+                this.AccountList[objIndex].Balance -= parseFloat(Amount)
                 return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) }
             }
             return {'Server-Response': 'Insufficient Balance'}
@@ -44,11 +44,11 @@ class BankAccount {
     TransferMoney(AccountNo, AccName, Password, Currency, Amount, ReceipientName, ReceipientAccountNo) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
         if (objIndex != -1) {
-            if (this.AccountList[objIndex].Balance > Amount) {
-                this.AccountList[objIndex].Balance -= Amount
+            if (this.AccountList[objIndex].Balance > parseFloat(Amount)) {
+                this.AccountList[objIndex].Balance -= parseFloat(Amount)
                 let RobjIndex = this.AccountList.findIndex((x => x.AccName === ReceipientName && x.AccountNo === ReceipientAccountNo))
                 if (RobjIndex != -1){
-                    this.AccountList[RobjIndex].Balance += Amount
+                    this.AccountList[RobjIndex].Balance += parseFloat(Amount)
                     return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password)) } 
                 }
                 return {'Server-Response': 'Recipient Account Does Not Exist'}

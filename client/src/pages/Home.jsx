@@ -26,21 +26,9 @@ class Home extends Component {
         }
         let marshallData = Marshalling(sendingData)
         socket.emit('check-balance', marshallData)
-<<<<<<< HEAD
-       
-        console.log(data)
-        //Do timeout at this portion
-
 
         socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
-            console.log(data)
-            //Do what ever you want
-=======
-
-        socket.on('check-balance-reply', (data) => {
-            data = UnMarshalling(data)
->>>>>>> 9330a2f7b90d7b30e7f68e4382280add4fea9fa5
             socket.emit('check-balance-ack', marshallData)
         })
     }
