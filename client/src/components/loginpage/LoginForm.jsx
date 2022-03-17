@@ -55,6 +55,9 @@ class LoginForm extends React.Component {
       this.props.Navigate('/home')
     }
   }
+  RegisterPage = () => {
+    this.props.Navigate('/openaccount')
+  }
 
   render() {
     return (
@@ -107,6 +110,8 @@ class LoginForm extends React.Component {
                           onKeyPress={this.handleKeyPress}
                         />
                         <div className="text-center mt-4 black-text">
+                        <MDBBtn color="white" onClick={this.RegisterPage} > Register
+                          </MDBBtn>
                           <MDBBtn color="white" onClick={this.EmailLogin} > Login
                           </MDBBtn>
                           
