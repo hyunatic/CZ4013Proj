@@ -11,6 +11,9 @@ const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 
 class Home extends Component {
     
+    state = {
+        accountAmount: 0
+    }
     //socket.on is listening for something
     //socket.emit is sending something to server
     componentDidMount() {
@@ -18,10 +21,10 @@ class Home extends Component {
     }
     MarshallingExample = () => {
         let sendingData = {
-            AccountNo: localStorage.getItem('AccountNo'),
-            AccName: localStorage.getItem('AccName'),
-            Password: localStorage.getItem('Password'),
-            Currency: localStorage.getItem('Currency'),
+            AccountNo: "1",
+            AccName: "toby",
+            Password: "123",
+            Currency: "SGD",
             Mode: 1,
         }
         let marshallData = Marshalling(sendingData)
@@ -29,6 +32,7 @@ class Home extends Component {
 
         socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
+            this.setState({ accountAmount : data['Server-Response'][0].Balance })
             socket.emit('check-balance-ack', marshallData)
         })
     }
@@ -51,7 +55,7 @@ class Home extends Component {
                     <h3>Good day </h3>
                     <h4>Choose a selection:</h4>
                     <hr />
-                    You have 100 Dollar
+                    You have {this.state.accountAmount} Dollar
                     <MDBBtn onClick={this.MarshallingExample}>Marshalling Example</MDBBtn>
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push('/deposit')}>Deposit</MDBBtn>
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push('/withdraw')}>Withdraw</MDBBtn>

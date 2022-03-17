@@ -147,7 +147,10 @@ io.on('connection', socket => {
     socket.on('check-balance', (receivingData, func = "check-balance") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
+        let historyExists = HistoryService.checkHistory(request, func)
 
+        if (!historyExists)
+            HistoryService.addNewHistoryEntry(request, func)
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
         let data = Bank.GetAccountDetails(request.AccountNo, request.AccName, request.Password, request.Currency)
@@ -185,6 +188,11 @@ io.on('connection', socket => {
         HistoryService.removeHistoryEntry(request,func)
     })
     socket.on('transfer-money-ack', (receivingData, func = "transfer-money") => {
+        //Unmarshall
+        let request = MarshallingService.Unmarshall(receivingData)
+        HistoryService.removeHistoryEntry(request,func)
+    })
+    socket.on('check-balance-ack', (receivingData, func = "check-balance") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
         HistoryService.removeHistoryEntry(request,func)
