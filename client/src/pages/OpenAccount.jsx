@@ -23,6 +23,7 @@ class OpenAccount extends Component {
         Password: "",
         Currency: "",
         Balance: "",
+        AccountNo: "",
     }
     initiateOpen = () => {
         let sendingData = {
@@ -41,10 +42,12 @@ class OpenAccount extends Component {
             data = UnMarshalling(data)
             var reply = data['Server-Response']
             console.log(reply)
+            this.setState({AccountNo: reply})
             //Do what ever you want
+            
             socket.emit('open-account-ack', marshallData)
 
-            console.log(data)
+            //console.log(data)
         })
     }
     CallbackFunction = () => {
@@ -72,6 +75,7 @@ class OpenAccount extends Component {
                 <MDBCardBody className="black-text">
                     <h3 className="text-center">
                         <MDBIcon icon="user-check" /> Open Account:
+                        <h1>Account No:{this.state.AccountNo}</h1>
                     </h3>
                     <hr className="hr-light" />
                      <MDBInput

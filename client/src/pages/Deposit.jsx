@@ -13,6 +13,16 @@ class Deposit extends Component {
     componentDidMount() {
         socket.on('Connect-Establisment', (data) => console.log(data))
     }
+    getData = () => {
+        let output = localStorage.getItem('bal');
+        output = JSON.parse(output);
+        //console.log(output);
+        //console.log(typeof(output));
+       this.setState({out: output.amt})
+       
+       console.log(this.state.out)
+       console.log(typeof(this.state.out))
+    }
 
     state = { 
         AccountNo: '',
@@ -20,8 +30,11 @@ class Deposit extends Component {
         Password: '',
         Currency: '',
         Amount: '',
-        // balance: '',
+        
     }
+
+   
+
     initiateTransfer = () => {
         let sendingData = {
             AccountNo: this.state.AccountNo,
@@ -130,13 +143,14 @@ class Deposit extends Component {
                         value={this.state.Amount}
                         onChange={this.handleChange}
                     />
-                     <p className="text-center">balance</p>
+                     <p className="text-center">balance: {this.state.out}</p>
 
                     <div className="text-center mt-4 black-text">
                         <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Deposit
                         </MDBBtn>
                         <MDBBtn color="white" onClick={this.back} > Back
                         </MDBBtn>
+                        <MDBBtn color="dark-green" onClick={this.getData}> View Balance</MDBBtn>
                         <hr className="hr-light" />
                     </div>
                 </MDBCardBody>
