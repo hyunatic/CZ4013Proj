@@ -55,7 +55,7 @@ io.on('connection', socket => {
 
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
-        let data = Bank.OpenNewAccount(request.AccName, request.Password, request.Currency, 0)
+        let data = Bank.OpenNewAccount(request.AccName, request.Password, request.Currency, request.Balance)
 
         if (request.Transmit && ReqReplyService.TransmitingProbability()) {
             let marshalledData = MarshallingService.Marshall(data)
