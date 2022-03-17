@@ -47,15 +47,15 @@ io.on('connection', socket => {
     socket.on('open-account', (receivingData, func = "open-account") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        let historyExists = HistoryService.checkHistory(request,func)
+        let historyExists = HistoryService.checkHistory(request, func)
 
         //Add to History
-        if(!historyExists)
+        if (!historyExists)
             HistoryService.addNewHistoryEntry(request, func)
 
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
-        let data = Bank.OpenNewAccount(request.AccName, request.Password, request.Currency, 0) 
+        let data = Bank.OpenNewAccount(request.AccName, request.Password, request.Currency, 0)
 
         if (request.Transmit && ReqReplyService.TransmitingProbability()) {
             let marshalledData = MarshallingService.Marshall(data)
@@ -67,15 +67,15 @@ io.on('connection', socket => {
     socket.on('close-account', (receivingData, func = "close-account") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        let historyExists = HistoryService.checkHistory(request,func)
+        let historyExists = HistoryService.checkHistory(request, func)
 
         //Add to History
-        if(!historyExists)
+        if (!historyExists)
             HistoryService.addNewHistoryEntry(request, func)
 
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
-        let data = Bank.CloseAccount(request.AccountNo, request.AccName, request.Password) 
+        let data = Bank.CloseAccount(request.AccountNo, request.AccName, request.Password)
 
         if (request.Transmit && ReqReplyService.TransmitingProbability()) {
             let marshalledData = MarshallingService.Marshall(data)
@@ -87,10 +87,10 @@ io.on('connection', socket => {
     socket.on('deposit', (receivingData, func = "deposit") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        let historyExists = HistoryService.checkHistory(request,func)
+        let historyExists = HistoryService.checkHistory(request, func)
 
         //Add to History
-        if(!historyExists)
+        if (!historyExists)
             HistoryService.addNewHistoryEntry(request, func)
 
         //Selects Mode
@@ -107,10 +107,10 @@ io.on('connection', socket => {
     socket.on('withdraw', (receivingData, func = "withdraw") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        let historyExists = HistoryService.checkHistory(request,func)
+        let historyExists = HistoryService.checkHistory(request, func)
 
         //Add to History
-        if(!historyExists)
+        if (!historyExists)
             HistoryService.addNewHistoryEntry(request, func)
 
         //Selects Mode
@@ -127,10 +127,10 @@ io.on('connection', socket => {
     socket.on('transfer-money', (receivingData, func = "transfer-money") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        let historyExists = HistoryService.checkHistory(request,func)
+        let historyExists = HistoryService.checkHistory(request, func)
 
         //Add to History
-        if(!historyExists)
+        if (!historyExists)
             HistoryService.addNewHistoryEntry(request, func)
 
         //Selects Mode
@@ -173,7 +173,23 @@ io.on('connection', socket => {
         }
         io.emit('monitor-updates', MarshallingService.Marshall(data))
     })
-    
+
+    socket.on('deposit-ack', (receivingData, func = "deposit") => {
+        //Unmarshall
+        let request = MarshallingService.Unmarshall(receivingData)
+        HistoryService.removeHistoryEntry(request,func)
+    })
+    socket.on('withdraw-ack', (receivingData, func = "withdraw") => {
+        //Unmarshall
+        let request = MarshallingService.Unmarshall(receivingData)
+        HistoryService.removeHistoryEntry(request,func)
+    })
+    socket.on('transfer-money-ack', (receivingData, func = "transfer-money") => {
+        //Unmarshall
+        let request = MarshallingService.Unmarshall(receivingData)
+        HistoryService.removeHistoryEntry(request,func)
+    })
+
 
 })
 
