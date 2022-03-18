@@ -12,8 +12,18 @@ const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 class Home extends Component {
     
     state = {
-        accountAmount: 0
+        accountAmount: 0,
+        
     }
+
+   
+  
+    // balance = () => {
+    //     localStorage.setItem("selectedTutId", tutid)
+    //     localStorage.setItem("selectedTutName", tutname)
+    //     this.props.history.push("/report")
+    // }
+    
     //socket.on is listening for something
     //socket.emit is sending something to server
     componentDidMount() {
@@ -33,7 +43,10 @@ class Home extends Component {
         socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
             this.setState({ accountAmount : data['Server-Response'][0].Balance })
+            console.log(this.state.accountAmount)
             socket.emit('check-balance-ack', marshallData)
+            
+            
         })
     }
 
@@ -47,6 +60,27 @@ class Home extends Component {
     }
 
 
+    setData = () =>{
+        // localStorage.setItem("bal", this.state.accountAmount)
+        // console.log(typeof(localStorage.setItem("bal", this.state.accountAmount)))
+        // this.props.history.push('/deposit')
+        // console.log("test")
+
+        let input = {
+            'amt': this.state.accountAmount,
+            
+
+        };
+        localStorage.setItem('bal',JSON.stringify(input))
+        this.props.history.push('/deposit')
+    }
+
+    getData = () => {
+        let output = localStorage.getItem('bal');
+        output = JSON.parse(output);
+        console.log(output);
+        console.log(typeof(output));
+    }
     render() {
         return (
             <div>
@@ -57,7 +91,8 @@ class Home extends Component {
                     <hr />
                     You have {this.state.accountAmount} Dollar
                     <MDBBtn onClick={this.MarshallingExample}>Marshalling Example</MDBBtn>
-                    <MDBBtn color="dark-green" onClick={() => this.props.history.push('/deposit')}>Deposit</MDBBtn>
+                    <MDBBtn color="dark-green" onClick={this.setData}>Deposit</MDBBtn>
+                   
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push('/withdraw')}>Withdraw</MDBBtn>
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push('/transfer')}>Transfer</MDBBtn>
                     <MDBBtn color="red" onClick={() => this.props.history.push('/closeaccount')}>Close Account</MDBBtn>
