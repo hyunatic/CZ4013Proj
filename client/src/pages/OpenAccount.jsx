@@ -25,6 +25,14 @@ class OpenAccount extends Component {
         Balance: "",
         AccountNo: "",
     }
+    setData = () => {
+        let newacc = {
+            'name': this.state.AccName,
+            'pass': this.state.Password,
+        }
+        localStorage.setItem('new_acc', JSON.stringify(newacc))
+        this.props.history.push('/')
+    }
     initiateOpen = () => {
         let sendingData = {
             AccName: this.state.AccName,
@@ -45,9 +53,26 @@ class OpenAccount extends Component {
             this.setState({AccountNo: reply})
             //Do what ever you want
             
+            let newacc = {
+                'name': this.state.AccName,
+                'pass': this.state.Password,
+                'accNo': reply,
+            }
+            localStorage.setItem('new_acc', JSON.stringify(newacc))
+            
             socket.emit('open-account-ack', marshallData)
 
             //console.log(data)
+
+            
+
+            // code not working on saving multiple string but is it needed?
+
+            // var old_data = JSON.parse(localStorage.getItem('new_acc'))
+            // old_data.push(newacc)
+
+            // localStorage.setItem('new_acc', JSON.stringify(old_data))
+            // this.props.history.push('/')   
         })
     }
     CallbackFunction = () => {
@@ -120,7 +145,7 @@ class OpenAccount extends Component {
                     />
                     
                     <div className="text-center mt-4 black-text">
-                        <MDBBtn color="white" onClick={this.initiateOpen} > Open Account
+                        <MDBBtn color="white" onClick={this.initiateOpen}  > Open Account
                         </MDBBtn>
                         <MDBBtn color="white" onClick={this.back} > Back
                         </MDBBtn>

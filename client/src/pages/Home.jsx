@@ -61,32 +61,25 @@ class Home extends Component {
 
 
     setData = () =>{
-        // localStorage.setItem("bal", this.state.accountAmount)
-        // console.log(typeof(localStorage.setItem("bal", this.state.accountAmount)))
-        // this.props.history.push('/deposit')
-        // console.log("test")
-
         let input = {
             'amt': this.state.accountAmount,
-            
-
         };
         localStorage.setItem('bal',JSON.stringify(input))
         this.props.history.push('/deposit')
     }
 
-    getData = () => {
-        let output = localStorage.getItem('bal');
-        output = JSON.parse(output);
-        console.log(output);
-        console.log(typeof(output));
-    }
+    // getData = () => {
+    //     let output = localStorage.getItem('bal');
+    //     output = JSON.parse(output);
+    //     console.log(output);
+    //     console.log(typeof(output));
+    // }
     render() {
         return (
             <div>
                 <Navbar /><br />
                 <MDBContainer>
-                    <h3>Good day </h3>
+                    <h3>Good day {this.state.AccName} </h3>
                     <h4>Choose a selection:</h4>
                     <hr />
                     You have {this.state.accountAmount} Dollar
