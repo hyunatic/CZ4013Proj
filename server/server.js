@@ -115,7 +115,7 @@ io.on('connection', socket => {
 
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
-        let data = (request.Execute) ? Bank.WithdrawMoney(request.AccountNo, request.AccName, request.Password, request.Currency, request.Amoount) : Bank.GetAccountDetails(request.AccountNo, request.AccName, request.Password, request.Currency)
+        let data = (request.Execute) ? Bank.WithdrawMoney(request.AccountNo, request.AccName, request.Password, request.Currency, request.Amount) : Bank.GetAccountDetails(request.AccountNo, request.AccName, request.Password, request.Currency)
 
         if (request.Transmit && ReqReplyService.TransmitingProbability()) {
             let marshalledData = MarshallingService.Marshall(data)
@@ -135,7 +135,7 @@ io.on('connection', socket => {
 
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
-        let data = Bank.TransferMoney()
+        let data = Bank.TransferMoney(request.AccountNo, request.AccName, request.Password, request.Currency, request.Amount, request.ReceipientName, request.ReceipientAccountNo)
 
         if (request.Transmit && ReqReplyService.TransmitingProbability()) {
             let marshalledData = MarshallingService.Marshall(data)
