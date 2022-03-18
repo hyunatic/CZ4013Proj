@@ -33,7 +33,7 @@ let ReqReplyService = new Networking()
 
 //Test Account
 Bank.OpenNewAccount("toby", "123", "SGD", 1000)
-Bank.OpenNewAccount("tom", "123", "SGD", 1000)
+Bank.OpenNewAccount("iskandar", "123", "SGD", 1000)
 
 //socket.on is listening for something
 //socket.emit is sending something to everyone

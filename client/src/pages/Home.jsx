@@ -6,17 +6,19 @@ import Footer from '../components/share/Footer'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 
+
 //Always instantiate this
 const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 
 class Home extends Component {
     
     state = {
-        accountAmount: 0,
+        accountAmount: '',
         
     }
 
    
+
   
     // balance = () => {
     //     localStorage.setItem("selectedTutId", tutid)
@@ -45,7 +47,13 @@ class Home extends Component {
             this.setState({ accountAmount : data['Server-Response'][0].Balance })
             console.log(this.state.accountAmount)
             socket.emit('check-balance-ack', marshallData)
-            
+
+            // save balance to local storage
+            let input = {
+                'amt': this.state.accountAmount,
+            };
+            localStorage.setItem('bal',JSON.stringify(input))
+             
             
         })
     }
@@ -79,7 +87,7 @@ class Home extends Component {
             <div>
                 <Navbar /><br />
                 <MDBContainer>
-                    <h3>Good day {this.state.AccName} </h3>
+                    <h3>Good day  </h3>
                     <h4>Choose a selection:</h4>
                     <hr />
                     You have {this.state.accountAmount} Dollar

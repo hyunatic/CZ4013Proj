@@ -52,13 +52,21 @@ class Deposit extends Component {
         socket.on('deposit-reply', (data) => {
             data = UnMarshalling(data)
             //Do what ever you want
-            var reply = data['Server-Response']
-            console.log(reply)
-            this.setState({ Balance: reply.Balance })
-            //console.log(reply.Balance)
-            
+            // var reply = data['Server-Response']
+            // console.log(reply)
+            this.setState({ accountAmount : data['Server-Response'][0].Balance })
+            //console.log(this.state.accountAmount)
             //console.log(data)
-           
+            let input = {
+                'amt': this.state.accountAmount,
+            };
+            localStorage.setItem('bal',JSON.stringify(input))
+
+            let output = localStorage.getItem('bal');
+        output = JSON.parse(output);
+        
+       this.setState({out: output.amt})
+        console.log(this.state.out)    
             socket.emit('deposit-ack', marshallData)
 
             //console.log(data)
@@ -148,9 +156,10 @@ class Deposit extends Component {
                     <div className="text-center mt-4 black-text">
                         <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Deposit
                         </MDBBtn>
+                        
+                        <MDBBtn color="dark-green" onClick={this.getData}> View Balance</MDBBtn>
                         <MDBBtn color="white" onClick={this.back} > Back
                         </MDBBtn>
-                        <MDBBtn color="dark-green" onClick={this.getData}> View Balance</MDBBtn>
                         <hr className="hr-light" />
                     </div>
                 </MDBCardBody>

@@ -48,6 +48,7 @@ class LoginForm extends React.Component {
       password: this.state.userpassword
     }
     this.props.emailLogin(form)
+    console.log(form)
   }
   componentWillReceiveProps(prevProps){
     if(prevProps.loginstatus){

@@ -13,6 +13,17 @@ class Withdraw extends Component {
         socket.on('Connect-Establisment', (data) => console.log(data))
     }
 
+    getData = () => {
+        let output = localStorage.getItem('bal');
+        output = JSON.parse(output);
+        //console.log(output);
+        //console.log(typeof(output));
+       this.setState({out: output.amt})
+       
+       console.log(this.state.out)
+       console.log(typeof(this.state.out))
+    }
+
     state = { 
         AccountNo: '',
         AccName: '',
@@ -37,6 +48,22 @@ class Withdraw extends Component {
         socket.on('withdraw-reply', (data) => {
             data = UnMarshalling(data)
             //Do what ever you want
+            //  var reply = data['Server-Response']
+            //  console.log(reply)
+            
+            this.setState({ accountAmount : data['Server-Response'][0].Balance })
+            console.log(this.state.accountAmount)
+            //console.log(data)
+            let input = {
+                'amt': this.state.accountAmount,
+            };
+            localStorage.setItem('bal',JSON.stringify(input))
+
+            //Get from local Storage
+            let output = localStorage.getItem('bal');
+            output = JSON.parse(output);
+            this.setState({out: output.amt})
+            console.log(this.state.out)    
             socket.emit('withdraw-ack', marshallData)
 
             console.log(data)
@@ -120,10 +147,11 @@ class Withdraw extends Component {
                         value={this.state.Amount}
                         onChange={this.handleChange}
                     />
-                    
+                        <p className="text-center">balance: {this.state.out}</p>
                     <div className="text-center mt-4 black-text">
                         <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Withdraw
                         </MDBBtn>
+                        <MDBBtn color="dark-green" onClick={this.getData}> View Balance</MDBBtn>
                         <MDBBtn color="white" onClick={this.back} > Back
                         </MDBBtn>
                         <hr className="hr-light" />
