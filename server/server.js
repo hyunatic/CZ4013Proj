@@ -53,6 +53,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('open-account-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
@@ -73,6 +74,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('close-account-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
@@ -93,6 +95,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('deposit-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
@@ -113,6 +116,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('withdraw-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
@@ -133,6 +137,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('transfer-money-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
@@ -151,6 +156,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('check-balance-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
@@ -167,6 +173,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('login-reply', marshalledData)
         }
+        request['Function'] = func
         io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 

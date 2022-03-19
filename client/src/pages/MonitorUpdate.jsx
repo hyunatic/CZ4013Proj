@@ -25,10 +25,8 @@ class MonitorUpdate extends Component {
     CheckUpdate = () => {
         socket.on('monitor-updates',(data) => {
             data = UnMarshalling(data)
-            data = data['Server-Response']
             //This part needs filtering
             console.log(data)
-            this.setState({ logger: [...this.state.logger, ...data]})
         })
     }
 
