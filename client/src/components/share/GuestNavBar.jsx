@@ -60,7 +60,7 @@ class GuestNavbar extends Component {
                             <MDBNavItem>
                                 <MDBNavLink
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/logout'
+                                    to='/'
                                 >
                                     <strong>Login</strong>
                                 </MDBNavLink>

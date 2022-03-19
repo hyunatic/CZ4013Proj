@@ -5,49 +5,37 @@ import { connect } from 'react-redux'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 
-//Always instantiate this
-const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 
 class CloseAccount extends Component {
-    componentDidMount() {
-        socket.on('Connect-Establisment', (data) => console.log(data))
-    }
-
-    state = { 
+    state = {
         AccountNo: '',
         AccName: '',
         Password: '',
-        
     }
-    initiateClose = () => {
+    componentWillUnmount() {
+        clearTimeout()
+    }
+    CloseBankAccount = () => {
+        const socket = io('http://localhost:2222/', { transports: ['websocket'] })
         let sendingData = {
             AccountNo: this.state.AccountNo,
             AccName: this.state.AccName,
             Password: this.state.Password,
-            
-            //Mode is 0,1,2 [Must send]
             Mode: 1
         }
         let marshallData = Marshalling(sendingData)
         socket.emit('close-account', marshallData)
-        //Do timeout at this portion
 
         socket.on('close-account-reply', (data) => {
             data = UnMarshalling(data)
-            //Do what ever you want
-            socket.emit('close-account-ack', marshallData)
-
-            console.log(data)
+            if(data['Server-Response'] === 'Account Removed'){
+                alert(data['Server-Response'])
+                this.props.history.push('/logout')
+            }
+         
         })
     }
-    CallbackFunction = () => {
-        socket.on('monitor-updates', (data) => {
-            data = UnMarshalling(data)
-            //Do what ever you want
-            console.log(data)
-        })
-    }
-    back = () => {
+    Back = () => {
         this.props.history.push('/home')
     }
 
@@ -64,7 +52,7 @@ class CloseAccount extends Component {
             <MDBCard id="classic-card">
                 <MDBCardBody className="black-text">
                     <h3 className="text-center">
-                        <MDBIcon icon="window-close" /> Closed Account:
+                        <MDBIcon icon="window-close" /> Close Account:
                     </h3>
                     <hr className="hr-light" />
                     <MDBInput
@@ -100,9 +88,9 @@ class CloseAccount extends Component {
                    
                     
                     <div className="text-center mt-4 black-text">
-                        <MDBBtn color="white" onClick={this.initiateClose} > Close Account
+                        <MDBBtn color="white" onClick={this.CloseBankAccount} > Close Account
                         </MDBBtn>
-                        <MDBBtn color="white" onClick={this.back} > Back
+                        <MDBBtn color="white" onClick={this.Back} > Back
                         </MDBBtn>
                         <hr className="hr-light" />
                     </div>

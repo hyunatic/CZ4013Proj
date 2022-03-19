@@ -4,15 +4,12 @@ import Navbar from '../components/share/Navbar'
 import { connect } from 'react-redux'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
+import { compose } from 'redux'
 
 //Always instantiate this
-const socket = io('http://localhost:2222/', { transports: ['websocket'] })
+
 
 class Transfer extends Component {
-    componentDidMount() {
-        socket.on('Connect-Establisment', (data) => console.log(data))
-    }
-
     state = {
         AccountNo: '',
         AccName: '',
@@ -21,8 +18,15 @@ class Transfer extends Component {
         Amount: '',
         ReceipientName: '',
         ReceipientAccountNo: '',
+        timeoutRetransmit: true,
     }
-    initiateTransfer = () => {
+    componentWillUnmount() {
+        clearTimeout()
+    }
+    TransferMoney = () => {
+        if(!this.state.timeoutRetransmit)
+            return
+        const socket = io('http://localhost:2222/', { transports: ['websocket'] })
         let sendingData = {
             AccountNo: this.state.AccountNo,
             AccName: this.state.AccName,
@@ -31,29 +35,24 @@ class Transfer extends Component {
             Amount: parseFloat(this.state.Amount),
             ReceipientName: this.state.ReceipientName,
             ReceipientAccountNo: this.state.ReceipientAccountNo,
-            //Mode is 0,1,2 [Must send]
             Mode: 1
         }
         let marshallData = Marshalling(sendingData)
         socket.emit('transfer-money', marshallData)
-        //Do timeout at this portion
 
         socket.on('transfer-money-reply', (data) => {
             data = UnMarshalling(data)
-            //Do what ever you want
+            data = data['Server-Response'][0]
+            console.log(data)
+            alert("Your new Balance is: " + data.Balance)
+            this.setState({ timeoutRetransmit: false })
             socket.emit('transfer-money-ack', marshallData)
-
-            console.log(data)
+            this.Back()
+            return
         })
+        setTimeout(() => this.TransferMoney(), 5000)
     }
-    CallbackFunction = () => {
-        socket.on('monitor-updates', (data) => {
-            data = UnMarshalling(data)
-            //Do what ever you want
-            console.log(data)
-        })
-    }
-    back = () => {
+    Back = () => {
         this.props.history.push('/home')
     }
 
@@ -144,9 +143,9 @@ class Transfer extends Component {
                                 onChange={this.handleChange}
                             />
                             <div className="text-center mt-4 black-text">
-                                <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Transfer
+                                <MDBBtn color="dark-green" onClick={this.TransferMoney} > Transfer
                                 </MDBBtn>
-                                <MDBBtn color="white" onClick={this.back} > Back
+                                <MDBBtn color="white" onClick={this.Back} > Back
                                </MDBBtn>
                                 <hr className="hr-light" />
                             </div>

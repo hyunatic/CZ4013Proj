@@ -23,7 +23,8 @@ class BankAccount {
         return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.AccountNo === AccountNo && x.Password === Password && x.Currency === Currency)) }
     }
     Login(AccName, Password) {
-        return { 'Server-Response': this.AccountList.filter((x => x.AccName === AccName && x.Password === Password)) }
+        var check = this.AccountList.filter((x => x.AccName === AccName && x.Password === Password))
+        return { 'Server-Response': (check.length > 0) ? check : "Account Doesn't Exist" }
     }
     DepositMoney(AccountNo, AccName, Password, Currency, Amount) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
@@ -41,7 +42,7 @@ class BankAccount {
         }
         return {'Server-Response': 'Account Does Not Exist'}
     }
-    TransferMoney(AccountNo, AccName, Password, Currency, Amount, ReceipientName, ) {
+    TransferMoney(AccountNo, AccName, Password, Currency, Amount, ReceipientName, ReceipientAccountNo) {
         let objIndex = this.AccountList.findIndex((x => x.AccountNo === AccountNo && x.AccName === AccName && x.Currency === Currency && x.Password === Password))
         if (objIndex != -1) {
             if (this.AccountList[objIndex].Balance > parseFloat(Amount)) {

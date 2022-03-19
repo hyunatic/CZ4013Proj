@@ -57,7 +57,7 @@ class Navbar extends Component {
                             <MDBNavItem>
                                 <MDBDropdown>
                                     <MDBDropdownToggle nav caret>
-                                        <MDBIcon icon="user" /> {this.state.username}
+                                        <MDBIcon icon="user" /> {localStorage.getItem('AccName')}
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default">
                                         {/* <MDBDropdownItem href="/studentprofile">Profile</MDBDropdownItem>

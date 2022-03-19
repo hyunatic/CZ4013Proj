@@ -10,7 +10,7 @@ class History {
         this.HistoryList.push(request)
     }
     removeHistoryEntry(request, func) {
-        this.HistoryList.filter(x => x.AccountNo !== request.AccountNo && x.AccName !== request.AccName && x.Password !== request.Password && x.Function !== func)
+        this.HistoryList = this.HistoryList.filter(x => x.AccountNo !== request.AccountNo && x.Function !== func)
     }
 }
 module.exports = History

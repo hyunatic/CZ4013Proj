@@ -9,6 +9,7 @@ import Deposit from '../pages/Deposit';
 import Withdraw from '../pages/Withdraw';
 import CloseAccount from '../pages/CloseAccount';
 import OpenAccount from '../pages/OpenAccount';
+import MonitorUpdate from '../pages/MonitorUpdate';
 class Routes extends React.Component {
   /**
    * Routes
@@ -26,6 +27,7 @@ class Routes extends React.Component {
         <Route path='/withdraw' component={Withdraw} />
         <Route path='/closeaccount' component={CloseAccount} />
         <Route path='/openaccount' component={OpenAccount} />
+        <Route path='/monitor' component={MonitorUpdate} />
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     );

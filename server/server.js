@@ -31,14 +31,6 @@ let MarshallingService = new Marshalling()
 let HistoryService = new History()
 let ReqReplyService = new Networking()
 
-//Test Account
-Bank.OpenNewAccount("toby", "123", "SGD", 1000)
-Bank.OpenNewAccount("iskandar", "123", "SGD", 1000)
-
-//socket.on is listening for something
-//socket.emit is sending something to everyone
-//io.to(socket.id).emit() is sending to a specific client
-
 io.on('connection', socket => {
     console.info(`Client connected [id=${socket.id}]`);
 
@@ -57,11 +49,11 @@ io.on('connection', socket => {
         request = ReqReplyService.ModeSelector(request, historyExists)
         let data = Bank.OpenNewAccount(request.AccName, request.Password, request.Currency, request.Balance)
 
-        if (request.Transmit && ReqReplyService.TransmitingProbability()) {
+        if (request.Transmit) {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('open-account-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('close-account', (receivingData, func = "close-account") => {
@@ -77,11 +69,11 @@ io.on('connection', socket => {
         request = ReqReplyService.ModeSelector(request, historyExists)
         let data = Bank.CloseAccount(request.AccountNo, request.AccName, request.Password)
 
-        if (request.Transmit && ReqReplyService.TransmitingProbability()) {
+        if (request.Transmit) {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('close-account-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('deposit', (receivingData, func = "deposit") => {
@@ -101,7 +93,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('deposit-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('withdraw', (receivingData, func = "withdraw") => {
@@ -121,7 +113,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('withdraw-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('transfer-money', (receivingData, func = "transfer-money") => {
@@ -141,7 +133,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('transfer-money-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('check-balance', (receivingData, func = "check-balance") => {
@@ -159,12 +151,13 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('check-balance-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('login', (receivingData, func = "login") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
+        let historyExists = HistoryService.checkHistory(request, func)
 
         //Selects Mode
         request = ReqReplyService.ModeSelector(request, historyExists)
@@ -174,7 +167,7 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('login-reply', marshalledData)
         }
-        io.emit('monitor-updates', MarshallingService.Marshall(data))
+        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('deposit-ack', (receivingData, func = "deposit") => {

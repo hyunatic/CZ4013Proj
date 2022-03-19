@@ -19,11 +19,6 @@ import PropTypes from 'prop-types'
 import { emailLogin } from '../../Redux/Actions/AuthAction'
 
 class LoginForm extends React.Component {
-  /**
-   * Set default state of email, userpassword, fbid, emailError, passwwordError to "", 
-   * Set fblogin emaillogin, loeading, wrongauth to false,
-   * Set exceedtry to 0
-   */
   state = {
     username: '',
     userpassword: '',
@@ -33,10 +28,7 @@ class LoginForm extends React.Component {
     this.setState(prevState => ({
       collapseID: prevState.collapseID !== collapseID ? collapseID : ""
     }));
-  /**
-   * handleChange
-   * @param {*} e  handle all the changes that were received
-   */
+
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -44,11 +36,11 @@ class LoginForm extends React.Component {
   }
   EmailLogin = () => {
     const form = {
-      username: this.state.username,
-      password: this.state.userpassword
+      AccName: this.state.username,
+      Password: this.state.userpassword,
+      Mode: 1
     }
-    this.props.emailLogin(form)
-    console.log(form)
+    this.props.Login(form)
   }
   componentWillReceiveProps(prevProps){
     if(prevProps.loginstatus){
@@ -92,7 +84,7 @@ class LoginForm extends React.Component {
                         <MDBInput
                           className="white-text"
                           iconClass="white-text"
-                          label="Enter Username"
+                          label="Enter Account Name"
                           icon="envelope"
                           id="username"
                           type="email"

@@ -20,49 +20,11 @@ import { registerUser, emailChecking } from '../../Redux/Actions/AuthAction'
 import { connect } from 'react-redux'
 
 class RegisterForm extends React.Component {
-  /**
-   * state 
-   * set collapseId, email, password, cfmpassword, name, fbimage, fbid, nameError, emailError, passwordError, cfmPasswordError to ""
-   * set usertype to Student, tutgrp to TS1
-   * set fbdetails, loading to false
-   */
-  state = {
-    collapseID: "",
-    email: "",
-    password: "",
-    cfmpassword: "",
-    usertype: "Student",
-    name: "",
-    fbimage: "",
-    fbid: "",
-    tutgrp: "TS1",
-    fbdetails: false,
-    loading: false,
-    nameError: "",
-    emailError: "",
-    passwordError: "",
-    cfmPasswordError: "",
-  };
-
   toggleCollapse = collapseID => () =>
     this.setState(prevState => ({
       collapseID: prevState.collapseID !== collapseID ? collapseID : ""
     }));
 
-    /**
-     * responseFacebook
-     * @param {*} response 
-     */
-  responseFacebook = (response) => {
-    console.log(response)
-    this.setState({
-      fbid: response.id,
-      fbimage: response.picture.data.url,
-      email: response.email,
-      name: response.name,
-      fbdetails: true
-    })
-  }
   /**
    * handleSelectList
    * @param {*} e 

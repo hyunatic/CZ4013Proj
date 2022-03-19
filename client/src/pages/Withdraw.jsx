@@ -6,163 +6,131 @@ import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 
 //Always instantiate this
-const socket = io('http://localhost:2222/', { transports: ['websocket'] })
+
 
 class Withdraw extends Component {
-    componentDidMount() {
-        socket.on('Connect-Establisment', (data) => console.log(data))
+    state = {
+        timeoutRetransmit: true,
+        AccountNo: "",
+        AccName: "",
+        Password: "",
+        Currency: "",
+        Amount: 0
     }
-
-    getData = () => {
-        let output = localStorage.getItem('bal');
-        output = JSON.parse(output);
-        //console.log(output);
-        //console.log(typeof(output));
-       this.setState({out: output.amt})
-       
-       console.log(this.state.out)
-       console.log(typeof(this.state.out))
+    componentWillUnmount() {
+        clearTimeout()
     }
-
-    state = { 
-        AccountNo: '',
-        AccName: '',
-        Password: '',
-        Currency: '',
-        Amount: '',
-    }
-    initiateTransfer = () => {
+    WithdrawalTransaction = () => {
+        if(!this.state.timeoutRetransmit)
+            return
+        const socket = io('http://localhost:2222/', { transports: ['websocket'] })
         let sendingData = {
             AccountNo: this.state.AccountNo,
             AccName: this.state.AccName,
             Password: this.state.Password,
             Currency: this.state.Currency,
             Amount: parseFloat(this.state.Amount),
-            //Mode is 0,1,2 [Must send]
-            Mode: 1
+            Mode: 2
         }
         let marshallData = Marshalling(sendingData)
         socket.emit('withdraw', marshallData)
-        //Do timeout at this portion
 
         socket.on('withdraw-reply', (data) => {
             data = UnMarshalling(data)
-            //Do what ever you want
-            //  var reply = data['Server-Response']
-            //  console.log(reply)
-            
-            this.setState({ accountAmount : data['Server-Response'][0].Balance })
-            console.log(this.state.accountAmount)
-            //console.log(data)
-            let input = {
-                'amt': this.state.accountAmount,
-            };
-            localStorage.setItem('bal',JSON.stringify(input))
-
-            //Get from local Storage
-            let output = localStorage.getItem('bal');
-            output = JSON.parse(output);
-            this.setState({out: output.amt})
-            console.log(this.state.out)    
+            data = data['Server-Response'][0]
+            alert("Your new Balance is: " + data.Balance)
+            this.setState({ timeoutRetransmit: false })
             socket.emit('withdraw-ack', marshallData)
-
-            console.log(data)
+            this.Back()
+            return
         })
-    }
-    CallbackFunction = () => {
-        socket.on('monitor-updates', (data) => {
-            data = UnMarshalling(data)
-            //Do what ever you want
-            console.log(data)
-        })
+        setTimeout(() => this.WithdrawalTransaction(), 5000)
     }
 
-    back = () => {
+    Back = () => {
         this.props.history.push('/home')
     }
 
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value
+            [e.target.id]: e.target.value
         })
-      }
-  render() {
-    return (
-        <div>
-        <Navbar /><br />
-        <MDBContainer>
-            <MDBCard id="classic-card">
-                <MDBCardBody className="black-text">
-                    <h3 className="text-center">
-                        <MDBIcon icon="user" /> Withdraw:
-                    </h3>
-                    <hr className="hr-light" />
-                    <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
-                        label="Account No"
-                        icon="envelope"
-                        id="AccountNo"
-                        type="number"
-                        value={this.state.AccountNo}
-                        onChange={this.handleChange}
-                    />
-                     <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
-                        label="Account Name"
-                        icon="user"
-                        id="AccName"
-                        type="text"
-                        value={this.state.AccName}
-                        onChange={this.handleChange}
-                    />
-                     <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
-                        label="Password"
-                        icon="lock"
-                        id="Password"
-                        type="password"
-                        value={this.state.Password}
-                        onChange={this.handleChange}
-                    />
-                     <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
-                        label="SGD/MYR/KRW"
-                        icon="money-bill"
-                        id="Currency"
-                        type="text"
-                        value={this.state.Currency}
-                        onChange={this.handleChange}
-                    />
-                    <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
-                        label="Withdraw Amount"
-                        icon="dollar-sign"
-                        type="number"
-                        id="Amount"
-                        value={this.state.Amount}
-                        onChange={this.handleChange}
-                    />
-                        <p className="text-center">balance: {this.state.out}</p>
-                    <div className="text-center mt-4 black-text">
-                        <MDBBtn color="dark-green" onClick={this.initiateTransfer} > Withdraw
-                        </MDBBtn>
-                        <MDBBtn color="dark-green" onClick={this.getData}> View Balance</MDBBtn>
-                        <MDBBtn color="white" onClick={this.back} > Back
-                        </MDBBtn>
-                        <hr className="hr-light" />
-                    </div>
-                   
-                </MDBCardBody>
-            </MDBCard>
-        </MDBContainer>
-    </div>
-    )
-  }
+    }
+    render() {
+        return (
+            <div>
+                <Navbar /><br />
+                <MDBContainer>
+                    <MDBCard id="classic-card">
+                        <MDBCardBody className="black-text">
+                            <h3 className="text-center">
+                                <MDBIcon icon="user" /> Withdraw:
+                            </h3>
+                            <hr className="hr-light" />
+                            <MDBInput
+                                className="black-text"
+                                iconClass="black-text"
+                                label="Account No"
+                                icon="envelope"
+                                id="AccountNo"
+                                type="number"
+                                value={this.state.AccountNo}
+                                onChange={this.handleChange}
+                            />
+                            <MDBInput
+                                className="black-text"
+                                iconClass="black-text"
+                                label="Account Name"
+                                icon="user"
+                                id="AccName"
+                                type="text"
+                                value={this.state.AccName}
+                                onChange={this.handleChange}
+                            />
+                            <MDBInput
+                                className="black-text"
+                                iconClass="black-text"
+                                label="Password"
+                                icon="lock"
+                                id="Password"
+                                type="password"
+                                value={this.state.Password}
+                                onChange={this.handleChange}
+                            />
+                            <MDBInput
+                                className="black-text"
+                                iconClass="black-text"
+                                label="SGD/MYR/KRW"
+                                icon="money-bill"
+                                id="Currency"
+                                type="text"
+                                value={this.state.Currency}
+                                onChange={this.handleChange}
+                            />
+                            <MDBInput
+                                className="black-text"
+                                iconClass="black-text"
+                                label="Withdraw Amount"
+                                icon="dollar-sign"
+                                type="number"
+                                id="Amount"
+                                value={this.state.Amount}
+                                onChange={this.handleChange}
+                            />
+                            <div className="text-center mt-4 black-text">
+                                <MDBBtn color="dark-green" onClick={this.WithdrawalTransaction} > Withdraw
+                                </MDBBtn>
+                                <MDBBtn color="white" onClick={this.Back} > Back
+                                </MDBBtn>
+                                <hr className="hr-light" />
+                            </div>
+
+                        </MDBCardBody>
+                    </MDBCard>
+                </MDBContainer>
+            </div>
+        )
+    }
 }
 const mapStateToProps = state => ({});
 export default connect(mapStateToProps,)(Withdraw)
