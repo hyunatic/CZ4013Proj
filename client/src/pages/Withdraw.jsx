@@ -15,13 +15,14 @@ class Withdraw extends Component {
         AccName: "",
         Password: "",
         Currency: "",
-        Amount: 0
+        Amount: 0,
+        Mode: 0
     }
     componentWillUnmount() {
         clearTimeout()
     }
     WithdrawalTransaction = () => {
-        if(!this.state.timeoutRetransmit)
+        if (!this.state.timeoutRetransmit)
             return
         const socket = io('http://localhost:2222/', { transports: ['websocket'] })
         let sendingData = {
@@ -30,7 +31,7 @@ class Withdraw extends Component {
             Password: this.state.Password,
             Currency: this.state.Currency,
             Amount: parseFloat(this.state.Amount),
-            Mode: 2
+            Mode: this.state.Mode
         }
         let marshallData = Marshalling(sendingData)
         socket.emit('withdraw', marshallData)
@@ -117,6 +118,11 @@ class Withdraw extends Component {
                                 value={this.state.Amount}
                                 onChange={this.handleChange}
                             />
+                            <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
+                                <option value="0">No Ack</option>
+                                <option value="1">At least once</option>
+                                <option value="2">At most once</option>
+                            </select>
                             <div className="text-center mt-4 black-text">
                                 <MDBBtn color="dark-green" onClick={this.WithdrawalTransaction} > Withdraw
                                 </MDBBtn>
@@ -133,4 +139,4 @@ class Withdraw extends Component {
     }
 }
 const mapStateToProps = state => ({});
-export default connect(mapStateToProps,)(Withdraw)
+export default connect(mapStateToProps)(Withdraw)

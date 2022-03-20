@@ -11,6 +11,7 @@ class CloseAccount extends Component {
         AccountNo: '',
         AccName: '',
         Password: '',
+        Currency: ''
     }
     componentWillUnmount() {
         clearTimeout()
@@ -21,6 +22,7 @@ class CloseAccount extends Component {
             AccountNo: this.state.AccountNo,
             AccName: this.state.AccName,
             Password: this.state.Password,
+            Currency: this.state.Currency,
             Mode: 1
         }
         let marshallData = Marshalling(sendingData)
@@ -83,6 +85,16 @@ class CloseAccount extends Component {
                         id="Password"
                         type="password"
                         value={this.state.Password}
+                        onChange={this.handleChange}
+                    />
+                      <MDBInput
+                        className="black-text"
+                        iconClass="black-text"
+                        label="SGD/MYR/KRW"
+                        icon="money-bill"
+                        id="Currency"
+                        type="text"
+                        value={this.state.Currency}
                         onChange={this.handleChange}
                     />
                    

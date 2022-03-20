@@ -19,12 +19,13 @@ class Transfer extends Component {
         ReceipientName: '',
         ReceipientAccountNo: '',
         timeoutRetransmit: true,
+        Mode,
     }
     componentWillUnmount() {
         clearTimeout()
     }
     TransferMoney = () => {
-        if(!this.state.timeoutRetransmit)
+        if (!this.state.timeoutRetransmit)
             return
         const socket = io('http://localhost:2222/', { transports: ['websocket'] })
         let sendingData = {
@@ -35,7 +36,7 @@ class Transfer extends Component {
             Amount: parseFloat(this.state.Amount),
             ReceipientName: this.state.ReceipientName,
             ReceipientAccountNo: this.state.ReceipientAccountNo,
-            Mode: 1
+            Mode: this.state.Mode
         }
         let marshallData = Marshalling(sendingData)
         socket.emit('transfer-money', marshallData)
@@ -58,9 +59,9 @@ class Transfer extends Component {
 
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value
+            [e.target.id]: e.target.value
         })
-      }
+    }
     render() {
         return (
             <div>
@@ -82,7 +83,7 @@ class Transfer extends Component {
                                 value={this.state.AccountNo}
                                 onChange={this.handleChange}
                             />
-                             <MDBInput
+                            <MDBInput
                                 className="black-text"
                                 iconClass="black-text"
                                 label="Account Name"
@@ -92,7 +93,7 @@ class Transfer extends Component {
                                 value={this.state.AccName}
                                 onChange={this.handleChange}
                             />
-                             <MDBInput
+                            <MDBInput
                                 className="black-text"
                                 iconClass="black-text"
                                 label="Password"
@@ -102,7 +103,7 @@ class Transfer extends Component {
                                 value={this.state.Password}
                                 onChange={this.handleChange}
                             />
-                             <MDBInput
+                            <MDBInput
                                 className="black-text"
                                 iconClass="black-text"
                                 label="SGD/MYR/KRW"
@@ -142,11 +143,16 @@ class Transfer extends Component {
                                 value={this.state.ReceipientAccountNo}
                                 onChange={this.handleChange}
                             />
+                            <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
+                                <option value="0">No Ack</option>
+                                <option value="1">At least once</option>
+                                <option value="2">At most once</option>
+                            </select>
                             <div className="text-center mt-4 black-text">
                                 <MDBBtn color="dark-green" onClick={this.TransferMoney} > Transfer
                                 </MDBBtn>
                                 <MDBBtn color="white" onClick={this.Back} > Back
-                               </MDBBtn>
+                                </MDBBtn>
                                 <hr className="hr-light" />
                             </div>
                         </MDBCardBody>

@@ -14,6 +14,7 @@ class Home extends Component {
     state = {
         accountAmount: 0,
         timeoutRetransmit: true,
+        Mode: 0
     }
     componentDidMount() {
         this.interval = setInterval(() => (this.state.timeoutRetransmit) ? this.CheckBalance() : "", 5000);
@@ -22,13 +23,12 @@ class Home extends Component {
         clearInterval(this.interval);
     }
     CheckBalance = () => {
-        console.log(this.state.timeoutRetransmit)
         const sendingData = {
             AccountNo: localStorage.getItem('AccountNo'),
             AccName: localStorage.getItem('AccName'),
             Password: localStorage.getItem('Password'),
             Currency: localStorage.getItem('Currency'),
-            Mode: 1
+            Mode: this.state.Mode
         }
         const marshallData = Marshalling(sendingData)
         socket.emit('check-balance', marshallData)
@@ -37,6 +37,11 @@ class Home extends Component {
             data = UnMarshalling(data)
             data = data['Server-Response'][0]
             this.setState({ accountAmount: data.Balance, timeoutRetransmit: false })
+        })
+    }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
         })
     }
 
@@ -51,6 +56,12 @@ class Home extends Component {
                     <hr />
 
                     You have {this.state.accountAmount} Dollar
+                    <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
+                        <option value="0">No Ack</option>
+                        <option value="1">At least once</option>
+                        <option value="2">At most once</option>
+                    </select>
+                    <MDBBtn color="dark-green" onClick={this.CheckBalance}>Check Balance</MDBBtn>
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push("/deposit")}>Deposit</MDBBtn>
 
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push('/withdraw')}>Withdraw</MDBBtn>

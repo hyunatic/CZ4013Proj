@@ -53,14 +53,17 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('open-account-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
+        data = Bank.GetAccountDetails(data['Server-Response'], request.AccName, request.Password, request.Currency)
+        data['Server-Response'][0].Function = func
+        io.emit('monitor-updates', MarshallingService.Marshall(data))
     })
 
     socket.on('close-account', (receivingData, func = "close-account") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
         let historyExists = HistoryService.checkHistory(request, func)
+
+        let logging = Bank.GetAccountDetails(request.AccountNo, request.AccName, request.Password, request.Currency)
 
         //Add to History
         if (!historyExists)
@@ -74,8 +77,8 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('close-account-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
+        logging['Server-Response'][0].Function = func
+        io.emit('monitor-updates', MarshallingService.Marshall(logging))
     })
 
     socket.on('deposit', (receivingData, func = "deposit") => {
@@ -95,8 +98,8 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('deposit-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
+        data['Server-Response'][0].Function = func
+        io.emit('monitor-updates', MarshallingService.Marshall(data))
     })
 
     socket.on('withdraw', (receivingData, func = "withdraw") => {
@@ -116,8 +119,17 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('withdraw-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
+
+        if (typeof (data['Server-Response']) === 'string') {
+            data = Bank.GetAccountDetails(request.AccountNo, request.AccName, request.Password, request.Currency)
+            data['Server-Response'][0].Function = func
+            io.emit('monitor-updates', MarshallingService.Marshall(data))
+        }
+        else {
+            data['Server-Response'][0].Function = func
+            io.emit('monitor-updates', MarshallingService.Marshall(data))
+        }
+
     })
 
     socket.on('transfer-money', (receivingData, func = "transfer-money") => {
@@ -137,8 +149,16 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('transfer-money-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
+        
+        if (typeof (data['Server-Response']) === 'string') {
+            data = Bank.GetAccountDetails(request.AccountNo, request.AccName, request.Password, request.Currency)
+            data['Server-Response'][0].Function = func
+            io.emit('monitor-updates', MarshallingService.Marshall(data))
+        }
+        else {
+            data['Server-Response'][0].Function = func
+            io.emit('monitor-updates', MarshallingService.Marshall(data))
+        }
     })
 
     socket.on('check-balance', (receivingData, func = "check-balance") => {
@@ -156,8 +176,8 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('check-balance-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
+        data['Server-Response'][0].Function = func
+        io.emit('monitor-updates', MarshallingService.Marshall(data))
     })
 
     socket.on('login', (receivingData, func = "login") => {
@@ -173,29 +193,27 @@ io.on('connection', socket => {
             let marshalledData = MarshallingService.Marshall(data)
             io.to(socket.id).emit('login-reply', marshalledData)
         }
-        request['Function'] = func
-        io.emit('monitor-updates', MarshallingService.Marshall(request))
     })
 
     socket.on('deposit-ack', (receivingData, func = "deposit") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        HistoryService.removeHistoryEntry(request,func)
+        HistoryService.removeHistoryEntry(request, func)
     })
     socket.on('withdraw-ack', (receivingData, func = "withdraw") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        HistoryService.removeHistoryEntry(request,func)
+        HistoryService.removeHistoryEntry(request, func)
     })
     socket.on('transfer-money-ack', (receivingData, func = "transfer-money") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        HistoryService.removeHistoryEntry(request,func)
+        HistoryService.removeHistoryEntry(request, func)
     })
     socket.on('check-balance-ack', (receivingData, func = "check-balance") => {
         //Unmarshall
         let request = MarshallingService.Unmarshall(receivingData)
-        HistoryService.removeHistoryEntry(request,func)
+        HistoryService.removeHistoryEntry(request, func)
     })
 
 
