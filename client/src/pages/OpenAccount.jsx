@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn } from 'mdbreact'
+import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn,MDBView,MDBMask } from 'mdbreact'
 import GuestNavbar from '../components/share/GuestNavBar'
 import { connect } from 'react-redux'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
-
+import Footer from '../components/share/Footer'
 //Always instantiate this
 
 
@@ -47,18 +47,20 @@ class OpenAccount extends Component {
       }
   render() {
     return (
-        <div>
-        <GuestNavbar /><br />
+        <div id="classicformpage">
+        <GuestNavbar />
+        <MDBView>
+        <MDBMask className="d-flex justify-content-center align-items-center gradient">
         <MDBContainer>
             <MDBCard id="classic-card">
-                <MDBCardBody className="black-text">
+                <MDBCardBody className="white-text">
                     <h3 className="text-center">
                         <MDBIcon icon="user-check" /> Open Account:
                     </h3>
                     <hr className="hr-light" />
                      <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
+                        className="white-text"
+                        iconClass="white-text"
                         label="Account Name"
                         icon="user"
                         id="AccName"
@@ -67,8 +69,8 @@ class OpenAccount extends Component {
                         onChange={this.handleChange}
                     />
                      <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
+                        className="white-text"
+                        iconClass="white-text"
                         label="Password"
                         icon="lock"
                         id="Password"
@@ -77,8 +79,8 @@ class OpenAccount extends Component {
                         onChange={this.handleChange}
                     />
                      <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
+                        className="white-text"
+                        iconClass="white-text"
                         label="SGD/MYR/KRW"
                         icon="money-bill"
                         id="Currency"
@@ -87,8 +89,8 @@ class OpenAccount extends Component {
                         onChange={this.handleChange}
                     />
                     <MDBInput
-                        className="black-text"
-                        iconClass="black-text"
+                        className="white-text"
+                        iconClass="white-text"
                         label="Balance"
                         icon="dollar-sign"
                         type="number"
@@ -97,7 +99,7 @@ class OpenAccount extends Component {
                         onChange={this.handleChange}
                     />
                     
-                    <div className="text-center mt-4 black-text">
+                    <div className="text-center mt-4 white-text">
                         <MDBBtn color="white" onClick={this.OpenAccount}  > Open Account
                         </MDBBtn>
                         <MDBBtn color="white" onClick={this.Back} > Back
@@ -107,6 +109,9 @@ class OpenAccount extends Component {
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>
+        </MDBMask>
+        <Footer/>
+        </MDBView>
     </div>
     )
   }

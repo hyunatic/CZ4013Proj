@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBBtn } from "mdbreact"
+import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBBtn, MDBView } from "mdbreact"
 import { connect } from 'react-redux'
 import Navbar from '../components/share/Navbar'
 import Footer from '../components/share/Footer'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
+import "../components/css/index.css"
 
 //Always instantiate this
 const socket = io('http://localhost:2222/', { transports: ['websocket'] })
@@ -47,20 +48,25 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
-                <Navbar /><br />
+            <div id="innerpagedesign">
+               
+                <Navbar />
+                <MDBView>
                 <MDBContainer>
-                    <h3>Good day  </h3>
+                
+                    <h3><br />Good day  </h3>
                     <h4>Your Account Number is: {localStorage.getItem('AccountNo')}</h4>
                     <h4>Choose a selection:</h4>
                     <hr />
 
-                    You have {this.state.accountAmount} Dollar
+                    <h4>You have {this.state.accountAmount} Dollar </h4>
                     <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
                         <option value="0">No Ack</option>
                         <option value="1">At least once</option>
                         <option value="2">At most once</option>
                     </select>
+
+                    <br/><br/>
                     <MDBBtn color="dark-green" onClick={this.CheckBalance}>Check Balance</MDBBtn>
                     <MDBBtn color="dark-green" onClick={() => this.props.history.push("/deposit")}>Deposit</MDBBtn>
 
@@ -73,6 +79,7 @@ class Home extends Component {
                 <br />
                 <br />
                 <Footer />
+                </MDBView>
             </div>
         )
     }

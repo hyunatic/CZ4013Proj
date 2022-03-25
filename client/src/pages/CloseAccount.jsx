@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn } from 'mdbreact'
+import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn,MDBView} from 'mdbreact'
 import Navbar from '../components/share/Navbar'
 import { connect } from 'react-redux'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
+import Footer from '../components/share/Footer'
 
 
 class CloseAccount extends Component {
@@ -48,8 +49,9 @@ class CloseAccount extends Component {
       }
   render() {
     return (
-        <div>
+        <div id="innerpagedesign">
         <Navbar /><br />
+        <MDBView>
         <MDBContainer>
             <MDBCard id="classic-card">
                 <MDBCardBody className="black-text">
@@ -109,6 +111,8 @@ class CloseAccount extends Component {
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>
+        <Footer />
+        </MDBView>
     </div>
     )
   }

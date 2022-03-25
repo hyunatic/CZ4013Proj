@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBTable, MDBTableBody, MDBTableHead } from "mdbreact"
+import { MDBContainer, MDBTable, MDBTableBody, MDBTableHead ,MDBView} from "mdbreact"
 import {
     MDBBtn,
     MDBModal,
@@ -13,6 +13,7 @@ import Navbar from '../components/share/Navbar'
 import Footer from '../components/share/Footer'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
+
 
 //Always instantiate this
 const socket = io('http://localhost:2222/', { transports: ['websocket'] })
@@ -64,8 +65,9 @@ class MonitorUpdate extends Component {
 
     render() {
         return (
-            <div>
+            <div id="innerpagedesign">
                 <Navbar /><br />
+                <MDBView>
                 <MDBContainer>
                     <h3>Monitoring Update: </h3>
                     <MDBTable>
@@ -103,6 +105,8 @@ class MonitorUpdate extends Component {
                 <br />
                 <br />
                 <Footer />
+                </MDBView>
+                <Footer/>
             </div>
         )
     }

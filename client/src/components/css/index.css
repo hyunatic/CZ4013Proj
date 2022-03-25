@@ -1,5 +1,5 @@
 #classicformpage .view {
-    background-image: url("https://m.economictimes.com/thumb/msid-88824095,width-1200,height-900,resizemode-4,imgsize-197694/top-cryptocurrency-prices.jpg");
+    background-image: url("https://g.foolcdn.com/editorial/images/588686/generic-bank-getty.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -28,7 +28,7 @@
     background-color: rgba(126, 123, 215, 0.2);
   }
   
-  #classicformpage h6 {
+  #classicformpage h3 {
     line-height: 1.7;
   }
   
@@ -49,3 +49,31 @@
   #classicformpage label {
     color: #fff !important;
   }
+
+  #innerpagedesign .view{
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/003/621/544/small/abstract-grey-and-white-geometric-stylish-modern-background-design-vector.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+  }
+
+  #innerpagedesign .navbar {
+    transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
+  }
+
+  #innerpagedesign h3 {
+    color: rgb(58, 58, 59);
+    font-size: 40px;
+    line-height: 1.7;
+  }
+
+  #innerpagedesign h4 {
+    
+    line-height: 30px;
+   
+  }
+
+
+  
+  

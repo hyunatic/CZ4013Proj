@@ -1,10 +1,11 @@
-import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn } from 'mdbreact'
+import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn ,MDBView} from 'mdbreact'
 import React, { Component } from 'react'
 import Navbar from '../components/share/Navbar'
 import { connect } from 'react-redux'
 import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 import { compose } from 'redux'
+import Footer from '../components/share/Footer'
 
 //Always instantiate this
 
@@ -64,7 +65,8 @@ class Transfer extends Component {
     }
     render() {
         return (
-            <div>
+            <div id="innerpagedesign">
+                <MDBView>
                 <Navbar /><br />
                 <MDBContainer>
                     <MDBCard id="classic-card">
@@ -158,6 +160,8 @@ class Transfer extends Component {
                         </MDBCardBody>
                     </MDBCard>
                 </MDBContainer>
+                <Footer/>
+                </MDBView>
             </div>
         )
     }

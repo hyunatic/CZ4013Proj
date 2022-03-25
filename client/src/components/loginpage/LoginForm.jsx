@@ -65,12 +65,12 @@ class LoginForm extends React.Component {
                   className="white-text text-center text-md-left col-md-6 mt-xl-5 mb-5"
                 >
                   <h1 className="h1-responsive font-weight-bold">
-                    This is just a test app
+                    This is a Banking Test App 
                   </h1>
                   <hr className="hr-light" />
-                  <h6 className="mb-4">
-                    Don't have an account? You need to be invited
-                  </h6>
+                  <h3 className="mb-4">
+                    Don't have an account?  <br/>You need to REGISTER for one
+                  </h3>
                 </MDBAnimation>
 
                 <MDBCol md="6" xl="5" className="mb-4">
