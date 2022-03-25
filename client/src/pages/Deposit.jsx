@@ -45,6 +45,13 @@ class Deposit extends Component {
             return
         })
         setTimeout(() => this.DepositTransaction(), 5000)
+
+
+        let nameError = "";
+        if (!this.state.name) {
+            nameError = "name cannot be empty";
+          }
+
     }
 
     Back = () => {

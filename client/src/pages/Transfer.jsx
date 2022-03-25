@@ -66,8 +66,8 @@ class Transfer extends Component {
     render() {
         return (
             <div id="innerpagedesign">
-                <MDBView>
                 <Navbar /><br />
+                <MDBView>
                 <MDBContainer>
                     <MDBCard id="classic-card">
                         <MDBCardBody className="black-text">
