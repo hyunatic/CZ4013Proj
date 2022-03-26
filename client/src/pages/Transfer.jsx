@@ -20,7 +20,8 @@ class Transfer extends Component {
         ReceipientName: '',
         ReceipientAccountNo: '',
         timeoutRetransmit: true,
-        Mode,
+        Mode: false,
+        retry: false
     }
     componentWillUnmount() {
         clearTimeout()
@@ -47,11 +48,12 @@ class Transfer extends Component {
             data = data['Server-Response'][0]
             console.log(data)
             alert("Your new Balance is: " + data.Balance)
-            this.setState({ timeoutRetransmit: false })
+            this.setState({ timeoutRetransmit: false, retry: false })
             socket.emit('transfer-money-ack', marshallData)
             this.Back()
             return
         })
+        this.setState({retry : true})
         setTimeout(() => this.TransferMoney(), 5000)
     }
     Back = () => {
@@ -150,6 +152,8 @@ class Transfer extends Component {
                                 <option value="1">At least once</option>
                                 <option value="2">At most once</option>
                             </select>
+                            {(this.state.retry) ? <p className='red-text'>Sending Failed. Retrying....</p> : <p></p>}
+
                             <div className="text-center mt-4 black-text">
                                 <MDBBtn color="dark-green" onClick={this.TransferMoney} > Transfer
                                 </MDBBtn>

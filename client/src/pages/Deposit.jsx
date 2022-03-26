@@ -15,7 +15,8 @@ class Deposit extends Component {
         Password: "",
         Currency: "",
         Amount: 0,
-        Mode: 0
+        Mode: 0,
+        retry: false
     }
     componentWillUnmount() {
         clearTimeout()
@@ -39,11 +40,12 @@ class Deposit extends Component {
             data = UnMarshalling(data)
             data = data['Server-Response'][0]
             alert("Your new Balance is: " + data.Balance)
-            this.setState({ timeoutRetransmit: false })
+            this.setState({ timeoutRetransmit: false, retry: false })
             socket.emit('deposit-ack', marshallData)
             this.Back()
             return
         })
+        this.setState({retry : true})
         setTimeout(() => this.DepositTransaction(), 5000)
 
 
@@ -125,11 +127,13 @@ class Deposit extends Component {
                                 value={this.state.Amount}
                                 onChange={this.handleChange}
                             />
+                         
                             <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
                                 <option value="0">No Ack</option>
                                 <option value="1">At least once</option>
                                 <option value="2">At most once</option>
                             </select>
+                            {(this.state.retry) ? <p className='red-text'>Sending Failed. Retrying....</p> : <p></p>}
                             <div className="text-center mt-4 black-text">
                                 <MDBBtn color="dark-green" onClick={this.DepositTransaction}> Deposit
                                 </MDBBtn>
