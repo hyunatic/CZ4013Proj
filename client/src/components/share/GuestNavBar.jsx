@@ -50,7 +50,7 @@ class GuestNavbar extends Component {
                 <MDBNavbar color='green' dark expand='md' fixed='top' scrolling>
                     <MDBNavbarBrand href='/' className='py-0 font-weight-bold'>
                         <img src={ganyu} height="50" alt="50" className="rounded-circle" />
-                        <strong className='align-middle'>Ganyu</strong>
+                        <strong className='align-middle'>CZ4013 Project</strong>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler
                         onClick={this.toggleCollapse('mainNavbarCollapse')}
