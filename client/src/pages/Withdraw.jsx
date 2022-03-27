@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn ,MDBView} from 'mdbreact'
+import { MDBContainer, MDBCard, MDBCardBody, MDBIcon, MDBInput, MDBBtn, MDBView } from 'mdbreact'
 import Navbar from '../components/share/Navbar'
 import { connect } from 'react-redux'
 import { io } from "socket.io-client"
@@ -21,6 +21,7 @@ class Withdraw extends Component {
         retry: false
     }
     componentWillUnmount() {
+        this.setState({ timeoutRetransmit: false })
         clearTimeout()
     }
     WithdrawalTransaction = () => {
@@ -36,18 +37,25 @@ class Withdraw extends Component {
             Mode: this.state.Mode
         }
         let marshallData = Marshalling(sendingData)
-        socket.emit('withdraw', marshallData)
 
+        socket.emit('withdraw', marshallData)
         socket.on('withdraw-reply', (data) => {
             data = UnMarshalling(data)
             data = data['Server-Response'][0]
-            alert("Your new Balance is: " + data.Balance)
-            this.setState({ timeoutRetransmit: false, retry: false })
-            socket.emit('withdraw-ack', marshallData)
-            this.Back()
-            return
+            this.setState({ timeoutRetransmit: false })
+            if (data === "I") {
+                alert("Insufficient Balance")
+                this.Back()
+            }
+            else {
+                alert("Your new Balance is: " + data.Balance)
+                socket.emit('withdraw-ack', marshallData)
+                clearTimeout()
+                this.Back()
+            }
         })
-        this.setState({retry : true})
+
+        this.setState({ timeoutRetransmit: true, retry: true })
         setTimeout(() => this.WithdrawalTransaction(), 5000)
     }
 
@@ -62,84 +70,84 @@ class Withdraw extends Component {
     }
     render() {
         return (
-            <div  id="innerpagedesign">
+            <div id="innerpagedesign">
                 <Navbar /><br />
                 <MDBView>
-                <MDBContainer>
-                    <MDBCard id="classic-card">
-                        <MDBCardBody className="black-text">
-                            <h3 className="text-center">
-                                <MDBIcon icon="user" /> Withdraw:
-                            </h3>
-                            <hr className="hr-light" />
-                            <MDBInput
-                                className="black-text"
-                                iconClass="black-text"
-                                label="Account No"
-                                icon="envelope"
-                                id="AccountNo"
-                                type="number"
-                                value={this.state.AccountNo}
-                                onChange={this.handleChange}
-                            />
-                            <MDBInput
-                                className="black-text"
-                                iconClass="black-text"
-                                label="Account Name"
-                                icon="user"
-                                id="AccName"
-                                type="text"
-                                value={this.state.AccName}
-                                onChange={this.handleChange}
-                            />
-                            <MDBInput
-                                className="black-text"
-                                iconClass="black-text"
-                                label="Password"
-                                icon="lock"
-                                id="Password"
-                                type="password"
-                                value={this.state.Password}
-                                onChange={this.handleChange}
-                            />
-                            <MDBInput
-                                className="black-text"
-                                iconClass="black-text"
-                                label="SGD/MYR/KRW"
-                                icon="money-bill"
-                                id="Currency"
-                                type="text"
-                                value={this.state.Currency}
-                                onChange={this.handleChange}
-                            />
-                            <MDBInput
-                                className="black-text"
-                                iconClass="black-text"
-                                label="Withdraw Amount"
-                                icon="dollar-sign"
-                                type="number"
-                                id="Amount"
-                                value={this.state.Amount}
-                                onChange={this.handleChange}
-                            />
-                            <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
-                                <option value="0">No Ack</option>
-                                <option value="1">At least once</option>
-                                <option value="2">At most once</option>
-                            </select>
-                            {(this.state.retry) ? <p className='red-text'>Sending Failed. Retrying....</p> : <p></p>}
-                            <div className="text-center mt-4 black-text">
-                                <MDBBtn color="dark-green" onClick={this.WithdrawalTransaction} > Withdraw
-                                </MDBBtn>
-                                <MDBBtn color="white" onClick={this.Back} > Back
-                                </MDBBtn>
+                    <MDBContainer>
+                        <MDBCard id="classic-card">
+                            <MDBCardBody className="black-text">
+                                <h3 className="text-center">
+                                    <MDBIcon icon="user" /> Withdraw:
+                                </h3>
                                 <hr className="hr-light" />
-                            </div>
+                                <MDBInput
+                                    className="black-text"
+                                    iconClass="black-text"
+                                    label="Account No"
+                                    icon="envelope"
+                                    id="AccountNo"
+                                    type="number"
+                                    value={this.state.AccountNo}
+                                    onChange={this.handleChange}
+                                />
+                                <MDBInput
+                                    className="black-text"
+                                    iconClass="black-text"
+                                    label="Account Name"
+                                    icon="user"
+                                    id="AccName"
+                                    type="text"
+                                    value={this.state.AccName}
+                                    onChange={this.handleChange}
+                                />
+                                <MDBInput
+                                    className="black-text"
+                                    iconClass="black-text"
+                                    label="Password"
+                                    icon="lock"
+                                    id="Password"
+                                    type="password"
+                                    value={this.state.Password}
+                                    onChange={this.handleChange}
+                                />
+                                <MDBInput
+                                    className="black-text"
+                                    iconClass="black-text"
+                                    label="SGD/MYR/KRW"
+                                    icon="money-bill"
+                                    id="Currency"
+                                    type="text"
+                                    value={this.state.Currency}
+                                    onChange={this.handleChange}
+                                />
+                                <MDBInput
+                                    className="black-text"
+                                    iconClass="black-text"
+                                    label="Withdraw Amount"
+                                    icon="dollar-sign"
+                                    type="number"
+                                    id="Amount"
+                                    value={this.state.Amount}
+                                    onChange={this.handleChange}
+                                />
+                                <select id="Mode" onChange={this.handleChange} value={this.state.Mode} className="browser-default custom-select">
+                                    <option value="0">No Ack</option>
+                                    <option value="1">At least once</option>
+                                    <option value="2">At most once</option>
+                                </select>
+                                {(this.state.retry) ? <p className='red-text'>Retrying....</p> : <p></p>}
+                                <div className="text-center mt-4 black-text">
+                                    <MDBBtn color="dark-green" onClick={this.WithdrawalTransaction} > Withdraw
+                                    </MDBBtn>
+                                    <MDBBtn color="white" onClick={this.Back} > Back
+                                    </MDBBtn>
+                                    <hr className="hr-light" />
+                                </div>
 
-                        </MDBCardBody>
-                    </MDBCard>
-                </MDBContainer>
-                <Footer/>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBContainer>
+                    <Footer />
                 </MDBView>
 
             </div>
