@@ -25,6 +25,9 @@ class OpenAccount extends Component {
             Balance: parseFloat(this.state.Balance),
             Mode: 1
         }
+        if (this.state.AccName == ""|| this.state.Password == ""|| this.state.Currency== ""  || this.state.Balance == ""){
+            alert( "Do not leave empty field ")
+            return}
         let marshallData = Marshalling(sendingData)
         socket.emit('open-account', marshallData)
 

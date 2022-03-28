@@ -26,6 +26,9 @@ class CloseAccount extends Component {
             Currency: this.state.Currency,
             Mode: 1
         }
+        if (this.state.AccName == "" || this.state.AccountNo == ""|| this.state.Password == ""|| this.state.Currency== "" ){
+            alert( "Do not leave empty field ")
+            return}
         let marshallData = Marshalling(sendingData)
         socket.emit('close-account', marshallData)
 

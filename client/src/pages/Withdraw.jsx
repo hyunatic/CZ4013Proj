@@ -35,6 +35,9 @@ class Withdraw extends Component {
             Amount: parseFloat(this.state.Amount),
             Mode: this.state.Mode
         }
+        if (this.state.AccName == "" || this.state.AccountNo == ""|| this.state.Password == ""|| this.state.Currency== "" ||this.state.Amount == ""){
+            alert( "Do not leave empty field ")
+            return}
         let marshallData = Marshalling(sendingData)
 
         socket.emit('withdraw', marshallData)

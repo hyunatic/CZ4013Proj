@@ -24,6 +24,7 @@ class Deposit extends Component {
         clearTimeout()
     }
     DepositTransaction = () => {
+        
         if (!this.state.timeoutRetransmit)
             return
 
@@ -35,6 +36,9 @@ class Deposit extends Component {
             Amount: parseFloat(this.state.Amount),
             Mode: this.state.Mode
         }
+        if (this.state.AccName == "" || this.state.AccountNo == ""|| this.state.Password == ""|| this.state.Currency== "" ||this.state.Amount == ""){
+        alert( "Do not leave empty field ")
+        return}
         let marshallData = Marshalling(sendingData)
         socket.emit('deposit', marshallData)
 
@@ -49,10 +53,6 @@ class Deposit extends Component {
         })
         this.setState({retry : true})
         setTimeout(() => this.DepositTransaction(), 5000)
-
-        if (!this.state.name) {
-            nameError = "name cannot be empty";
-          }
 
     }
 

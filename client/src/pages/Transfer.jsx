@@ -42,6 +42,9 @@ class Transfer extends Component {
             ReceipientAccountNo: this.state.ReceipientAccountNo,
             Mode: this.state.Mode
         }
+        if (this.state.AccName == "" || this.state.AccountNo == ""|| this.state.Password == ""|| this.state.Currency== "" ||this.state.Amount == "" || this.state.ReceipientName== "" || this.state.ReceipientAccountNo == ""){
+            alert( "Do not leave empty field ")
+            return}
         let marshallData = Marshalling(sendingData)
         socket.emit('transfer-money', marshallData)
 
