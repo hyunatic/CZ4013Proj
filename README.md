@@ -24,6 +24,7 @@ Install the node packages and start the server.
 cd CZ4013Proj/server
 npm install 
 node server.js
+http://localhost:2222
 ```
 
 Install the node packages and start the client.
@@ -32,7 +33,7 @@ Install the node packages and start the client.
 cd CZ4013Proj/client
 npm install 
 npm start
-http://localhost:2222
+http://localhost:3000
 ```
 
 ## Supported Service
