@@ -6,8 +6,6 @@ import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 import Footer from '../components/share/Footer'
 
-//Always instantiate this
-
 
 class Withdraw extends Component {
     state = {
@@ -21,10 +19,11 @@ class Withdraw extends Component {
         retry: false
     }
     componentWillUnmount() {
-        this.setState({ timeoutRetransmit: false })
+        this.setState({ timeoutRetransmit: true })
         clearTimeout()
     }
     WithdrawalTransaction = () => {
+        console.log("Retrying Withdrawal")
         if (!this.state.timeoutRetransmit)
             return
         const socket = io('http://localhost:2222/', { transports: ['websocket'] })

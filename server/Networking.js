@@ -20,7 +20,7 @@ class Networking{
     }
     TransmitingProbability(){
         let random = Math.random();
-        return (random < 0.5) ? true : false
+        return (random < 0.85) ? true : false
     }
 
 }

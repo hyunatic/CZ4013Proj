@@ -24,10 +24,11 @@ class Transfer extends Component {
         retry: false
     }
     componentWillUnmount() {
-        this.setState({ timeoutRetransmit: false })
+        this.setState({ timeoutRetransmit: true })
         clearTimeout()
     }
     TransferMoney = () => {
+        console.log("Retrying Transfer")
         if (!this.state.timeoutRetransmit)
             return
         const socket = io('http://localhost:2222/', { transports: ['websocket'] })

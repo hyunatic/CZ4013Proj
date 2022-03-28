@@ -21,6 +21,7 @@ class Home extends Component {
         this.interval = setInterval(() => (this.state.timeoutRetransmit) ? this.CheckBalance() : "", 5000);
     }
     componentWillUnmount() {
+        socket.close()
         clearInterval(this.interval);
     }
     CheckBalance = () => {

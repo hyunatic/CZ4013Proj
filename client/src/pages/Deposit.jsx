@@ -6,6 +6,7 @@ import { io } from "socket.io-client"
 import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 import Footer from '../components/share/Footer'
 
+const socket = io('http://localhost:2222/', { transports: ['websocket'] })
 
 class Deposit extends Component {
     state = {
@@ -19,12 +20,13 @@ class Deposit extends Component {
         retry: false
     }
     componentWillUnmount() {
+        socket.close()
         clearTimeout()
     }
     DepositTransaction = () => {
         if (!this.state.timeoutRetransmit)
             return
-        const socket = io('http://localhost:2222/', { transports: ['websocket'] })
+
         let sendingData = {
             AccountNo: this.state.AccountNo,
             AccName: this.state.AccName,

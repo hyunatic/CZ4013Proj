@@ -215,6 +215,9 @@ io.on('connection', socket => {
         let request = MarshallingService.Unmarshall(receivingData)
         HistoryService.removeHistoryEntry(request, func)
     })
+    socket.on('end', function (){
+        socket.disconnect(0);
+    });
 
 
 })
