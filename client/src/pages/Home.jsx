@@ -8,23 +8,24 @@ import { Marshalling, UnMarshalling } from '../Redux/Actions/MarshalService'
 import "../components/css/index.css"
 
 //Always instantiate this
-const socket = io('http://localhost:2222/', { transports: ['websocket'] })
+
 
 class Home extends Component {
 
     state = {
         accountAmount: 0,
         timeoutRetransmit: true,
-        Mode: 0
+        Mode: 2
     }
     componentDidMount() {
         this.interval = setInterval(() => (this.state.timeoutRetransmit) ? this.CheckBalance() : "", 5000);
     }
     componentWillUnmount() {
-        socket.close()
+
         clearInterval(this.interval);
     }
     CheckBalance = () => {
+        const socket = io('http://localhost:2222/', { transports: ['websocket'] })
         const sendingData = {
             AccountNo: localStorage.getItem('AccountNo'),
             AccName: localStorage.getItem('AccName'),
@@ -33,12 +34,15 @@ class Home extends Component {
             Mode: this.state.Mode
         }
         const marshallData = Marshalling(sendingData)
+        console.log("Retrieving Balance....")
         socket.emit('check-balance', marshallData)
 
         socket.on('check-balance-reply', (data) => {
             data = UnMarshalling(data)
             data = data['Server-Response'][0]
             this.setState({ accountAmount: data.Balance, timeoutRetransmit: false })
+            console.log("Retrieve Balance Successful")
+            socket.close()
         })
     }
     handleChange = (e) => {
