@@ -51,11 +51,13 @@ class Transfer extends Component {
             this.setState({ timeoutRetransmit: false})
             if (data === "I") {
                 alert("Insufficient Balance")
+                socket.close()
                 this.Back()
             }
             else {
                 alert("Your new Balance is: " + data.Balance)
                 socket.emit('transfer-money-ack', marshallData)
+                socket.close()
                 this.Back()
             }
             return

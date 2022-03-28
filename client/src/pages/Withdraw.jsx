@@ -44,12 +44,13 @@ class Withdraw extends Component {
             this.setState({ timeoutRetransmit: false })
             if (data === "I") {
                 alert("Insufficient Balance")
+                socket.close()
                 this.Back()
             }
             else {
                 alert("Your new Balance is: " + data.Balance)
                 socket.emit('withdraw-ack', marshallData)
-                clearTimeout()
+                socket.close()
                 this.Back()
             }
         })
